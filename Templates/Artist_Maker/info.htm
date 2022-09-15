@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en" class="page-details">
+<head>
+	<title>%{Include title.inc}% %{[Artist_Maker]Display_Name}%</title>
+	%{Include head.inc}%
+</head>
+<!--ArtistInfo.htm-->
+<body>
+	%{Include header.inc}%
+	<div class="artistInfo">
+%{If(Has Image)}%
+		<div class="artistInfoMedia">
+			<div class="artistInfoMediaContent">
+				<!-- <a class="artistInfoMediaAct" href="{Full View}"> -->
+					<img class="artistInfoImage" src="%{preview}%" width="%{thumbnail width*2}%" height="%{thumbnail height*2}%" alt=""/>
+				<!-- </a> -->
+%{	If([Surrogates]Photo_Credit)}%
+				<div class="artistInfoMediaCredit">%{[Surrogates]Photo_Credit}%</div>
+%{	End If}%
+			</div>
+		</div>
+%{Else}%
+%{End If}%
+		<div class="artistInfoMain">
+			<h1>%{[Artist_Maker]Display_Name}%</h1>
+			%{if ([Artist_Maker]Biography != "")}%
+				<div class="objectInfoMoreItem">
+					%{[Artist_Maker]Biography}%
+				</div>
+			%{end if}%
+			%{if ([Artist_Maker]Disp_Maker_Life != "")}%
+				<div class="objectInfoMoreItem">
+					%{[Artist_Maker]Disp_Maker_Life}%
+				</div>
+			%{end if}%
+			<div>View <a href="%{Link;Objects_1;artist-objects;0;records=12;query=Artist_Maker=_ID;sort=9}%">objects by this artist</a>.</div>
+		</div>
+	</div>
+
+	%{Include footer.inc}%
+</body></html>

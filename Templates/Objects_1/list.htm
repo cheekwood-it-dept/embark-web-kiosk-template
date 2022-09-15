@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Parent Record Name;Object Results}%</title>
+	%{Include head.inc}%
+</head>
+<body>
+	<!--Objects_1/list.htm-->
+	%{Include header.inc}%
+	<h1>%{Parent Record Name;Object Results}%</h1>
+	<ul class="portfolio">
+<!--#4DEVAL (gsFunc_SetSelectedRecord(->[Objects_1]; gsFunc_GetCount("First Record")))--><!-- loads the first record -->
+<!--#4DEVAL $i:=gsFunc_GetCount("First Record")--><!-- set temp counter for the loop -->
+<!--The following will be repeated for each record in the Object List.-->
+<!--#4DLOOP ($i <= gsFunc_GetCount("Last Record"))--><!-- loop based on the temp counter -->
+	<!--#4DEVAL $i:=$i+1--><!-- increment the temp counter -->
+	<li class="portfolioItem">
+		<div class="portfolioItemMedia"><a href="<!--4Dtext gsFunc_Link("Objects_1;info;0;first=Current Record;query=Current Selection;records=1")-->" role="presentation">
+			<div class="cropImage" style="background-image:url('<!--#4Dif (gsFunc_HasImage(->[Objects_1]))--><!--#4Dvar gsFunc_GetImage (->[Objects_1];"Preview Url")--><!--4Delse-->/graphics/DefaultPreview.gif<!--#4Dendif-->')">
+				<img alt="<!--#4Dif (gsFunc_HasImage(->[Objects_1]))--><!--#4Dtext [Objects_1]Disp_Title--><!--#4Dendif-->" class="portfolioItemImage" src="<!--#4Dif (gsFunc_HasImage(->[Objects_1]))--><!--#4Dvar gsFunc_GetImage (->[Objects_1];"Preview Url")--><!--4Delse-->/graphics/DefaultPreview.gif<!--#4Dendif-->" />
+			</div>
+		</a></div>
+		<div class="portfolioItemMain">
+			<!--preferably no href if 404-->
+				<!--#4Dif ([Objects_1]Disp_Maker_1#"")--><div><a href="<!--4Dtext gsFunc_Link("Artist_Maker;info;[Objects_1]_Disp_Maker_ID;records=1")-->"><!--#4Dtext [Objects_1]Disp_Maker_1--></a></div><!--#4Dendif-->
+			<div class="portfolioItemName"><a href="<!--4Dtext gsFunc_Link("Objects_1;info;0;first=Current Record;query=Current Selection;records=1")-->"><i><!--#4Dif ([Objects_1]Obj_Title#"")--><!--#4Dtext [Objects_1]Obj_Title--><!--#4Delse--><!--#4Dtext [Objects_1]Disp_Title--><!--#4Dendif--></i></a></div>
+			<!--#4Dif ([Objects_1]Disp_Create_DT#"")--><div><!--#4Dtext [Objects_1]Disp_Create_DT--></div><!--#4Dendif-->
+		</div>
+	</li>
+	<!--#4DEVAL NEXT RECORD([Objects_1])--><!-- load the next record -->
+<!--#4DENDLOOP-->
+
+	</ul>
+	%{Include formaddtoport.inc}%
+	%{Include addobjtoportfolio.inc}%
+	%{Include pagenavigation.inc}%
+
+	%{Include footer.inc}%
+</body></html>

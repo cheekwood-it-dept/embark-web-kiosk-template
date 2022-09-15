@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}% %{Branch title;Browse the Collection}%</title>
+	%{Include head.inc}%
+</head>
+<!--IndexTree.htm-->
+<body>
+	%{Include header.inc}%
+
+	<h1>%{Branch title;Browse the Collection}%</h1>
+	<div>
+%{if(_ID!="-1")}%
+		<span><a href="%{Link;Index Tree;tree;[Index Tree]Parent}%">&lt;&nbsp;back to Browse the Collections</a></span>
+%{end if}%
+	</div>
+	<ul class="indexTree">
+%{Start Loop}%
+		<li class="indexTreeItem"><a class="indexTreeAct" href="%{Index Tree}%">
+			<div class="indexTreeItemMedia">%{If(Has Image)}%<img src="%{Thumbnail}%" alt="" />%{Else}%<img src="/graphics/DefaultThumbnail.gif" alt="" />%{End If}%</div>
+			<div><strong class="indexTreeItemName">%{Branch Title}%</strong></div>
+		</a></li>
+%{End Loop}%
+	</ul>
+
+	%{Include footer.inc}%
+</body></html>

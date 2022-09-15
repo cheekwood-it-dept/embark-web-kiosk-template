@@ -1,0 +1,69 @@
+{
+	"objects" : [
+		<!--#4DEVAL gsFunc_StoreSelectionForLoop (->[Objects_1]) -->
+		<!--#4DLOOP gsFunc_LoopSelection-->{<!--#4DEVAL $currentObjectId := [Objects_1]_Objects_1_ID)-->
+		"embark_ID" : <!--#4DTEXT [Objects_1]_Objects_1_ID-->,
+		"URL" : "https://webkiosk.gallerysystems.com/Objects-1/info/<!--#4DTEXT [Objects_1]_Objects_1_ID-->",
+		"Disp_Access_No" : "<!--#4DSCRIPT/SQL_Encode/[Objects_1]Disp_Access_No-->",
+		"_AccNumSort1" : "<!--#4DSCRIPT/SQL_Encode/[Objects_1]_AccNumSort1-->",
+		"Disp_Create_DT" : "<!--#4DTEXT [Objects_1]Disp_Create_DT-->",
+		"_Disp_Start_Dat" : "<!--#4DTEXT [Objects_1]_Disp_Start_Dat-->",
+		"_Disp_End_Date" : "<!--#4DTEXT [Objects_1]_Disp_End_Date-->",
+		"Disp_Title" : "<!--#4DTEXT [Objects_1]Disp_Title-->",
+		"Alt_Title" : "<!--#4DTEXT [Objects_1]Alt_Title-->",
+		"Obj_Title" : "<!--#4DTEXT [Objects_1]Obj_Title-->",
+		"Series_Title" : "<!--#4DTEXT [Objects_1]Series_Title-->",
+		"Disp_Maker_1" : "<!--#4DTEXT [Objects_1]Disp_Maker_1-->",
+		"Sort_Artist" : "<!--#4DTEXT [Objects_1]Sort_Artist-->",
+		"Disp_Dimen" : "<!--#4DTEXT [Objects_1]Disp_Dimen-->",
+		"Disp_Height" : "<!--#4DTEXT [Objects_1]Disp_Height-->",
+		"Disp_Width" : "<!--#4DTEXT [Objects_1]Disp_Width-->",
+		"Dimen_Extent" : "<!--#4DTEXT [Objects_1]Dimen_Extent-->",
+		"Medium" : "<!--#4DSCRIPT/SQL_Encode/[Objects_1]Medium-->",
+		"Support" : "<!--#4DSCRIPT/SQL_Encode/[Objects_1]Support-->",
+		"Disp_Medium" : "<!--#4DTEXT [Objects_1]Disp_Medium-->",
+		"Info_Page_Comm" : "<!--#4DTEXT [Objects_1]Info_Page_Comm-->",
+		"Dedication" : "<!--#4DTEXT [Objects_1]Dedication-->",
+		"Copyright_Type" : "<!--#4DTEXT [Objects_1]Copyright_Type-->",
+		"Disp_Obj_Type" : "<!--#4DTEXT [Objects_1]Disp_Obj_Type-->",
+		"Creation_Place2" : "<!--#4DTEXT [Objects_1]Creation_Place2-->",
+		"Department" : "<!--#4DTEXT [Objects_1]Department-->",
+		"Obj_Name" : "<!--#4DTEXT [Objects_1]Obj_Name-->",
+		"Period" : "<!--#4DTEXT [Objects_1]Period-->",
+		"Style" : "<!--#4DTEXT [Objects_1]Style-->",
+		"Edition" : "<!--#4DSCRIPT/LoadObjectNotes/Edition--><!--#4DSCRIPT/SQL_Encode/[Object_Notes]Text-->", <!--#4Dif gsFunc_ObjectHasRelatedObjects ($currentObjectId; "Parent")-->
+		"Related_Parent" :
+				<!--#4DEVAL gsFunc_SortRecords(->[Objects_1]Disp_Access_No; ">")-->[
+					<!--#4DLOOP [Objects_1]-->{
+						"Rel_Obj_ID" : "<!--#4Dtext [Objects_1]_Objects_1_ID-->",
+						"Rel_Obj_Title" : "<!--#4Dtext [Objects_1]Disp_Title-->"
+					}<!--#4Dif (Selected Record Number([Objects_1])< Records in Selection([Objects_1])) -->,<!--#4Dendif--><!--#4DENDLOOP-->
+				],<!--#4Dendif--><!--#4Dif gsFunc_ObjectHasRelatedObjects ($currentObjectId; "Sibling")-->
+		"Related_Sibling" :
+				<!--#4DEVAL gsFunc_SortRecords(->[Objects_1]Disp_Access_No; ">")-->[
+					<!--#4DLOOP [Objects_1]-->{
+						"Rel_Obj_ID" : "<!--#4Dtext [Objects_1]_Objects_1_ID-->",
+						"Rel_Obj_Title" : "<!--#4Dtext [Objects_1]Disp_Title-->"
+					}<!--#4Dif (Selected Record Number([Objects_1])< Records in Selection([Objects_1])) -->,<!--#4Dendif--><!--#4DENDLOOP-->
+				],<!--#4Dendif--><!--#4Dif gsFunc_ObjectHasRelatedObjects ($currentObjectId; "Children")-->
+		"Related_Children" :
+				<!--#4DEVAL gsFunc_SortRecords(->[Objects_1]Disp_Access_No; ">")-->[
+					<!--#4DLOOP [Objects_1]-->{
+						"Rel_Obj_ID" : "<!--#4Dtext [Objects_1]_Objects_1_ID-->",
+						"Rel_Obj_Title" : "<!--#4Dtext [Objects_1]Disp_Title-->"
+						}<!--#4Dif (Selected Record Number([Objects_1])< Records in Selection([Objects_1])) -->,<!--#4Dendif--><!--#4DENDLOOP-->
+				],<!--#4Dendif--><!--#4DEVAL gsFunc_SpecialFieldQuery (->[Objects_1]_Objects_1_ID; string($currentObjectId))-->
+		"Curator" : "<!--#4DSCRIPT/LoadObjectNotes/Curator--><!--#4DSCRIPT/SQL_Encode/[Object_Notes]Text-->", "Images": [ <!--#4DSCRIPT/LoadRelatedRecords/Objects_1:Surrogates--><!--#4DLOOP [Surrogates]--><!--#4DIF [Surrogates]Web_Access--> {
+		"ImagePath" : "https://webkiosk.gallerysystems.com/Media/images/<!--#4DTEXT Filename("Surrogates")-->",
+    		"ThumbnailPath" : "https://webkiosk.gallerysystems.com/Media/Thumbnails/<!--#4DTEXT Filename("Surrogates")-->",
+    		"PreviewPath" : "https://webkiosk.gallerysystems.com/Media/Previews/<!--#4DTEXT Filename("Surrogates")-->",
+    		"IIIF_URL": "http://iiif.gallerysystems.com/<!--#4DTEXT Filename("Surrogates")-->",
+		"IsPrimary" : "<!--#4DTEXT [Surrogates]IsPrimary-->",
+    		"_SurrogateID" : "<!--#4DTEXT [Surrogates]_Surrogate_ID-->",
+    		"Image_Type" : "<!--#4DSCRIPT/SQL_Encode/[Surrogates]Image_Type-->",
+    		"Photo_Credit" : "<!--#4DSCRIPT/SQL_Encode/[Surrogates]PhotoCredit-->",
+    		"Remarks" : "<!--#4DSCRIPT/SQL_Encode/[Surrogates]Remarks-->",
+    		"View" : "<!--#4DSCRIPT/SQL_Encode/[Surrogates]View-->" } ,<!--#4DENDIF--> <!--#4DENDLOOP-->]
+		},<!--#4DENDLOOP-->
+	]
+}

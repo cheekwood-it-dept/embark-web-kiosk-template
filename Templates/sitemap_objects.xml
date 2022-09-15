@@ -1,0 +1,13 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+	<!--#4DEVAL gsFunc_AllFilteredRecords (->[Objects_1];->[Objects_1]_Objects_1_ID)-->
+	<!--#4DLOOP [Objects_1]-->
+	<url>
+        <loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/objects-1/info/<!--#4Dtext [Objects_1]_Objects_1_ID--></loc>
+        <lastmod><!--#4Dtext gsFunc_DateInIsoformat([Objects_1]mod_date)--></lastmod>
+        <changefreq>daily</changefreq>
+        <image:image>
+			<image:loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/<!--#4Dtext gsFunc_GetImage (->[Objects_1];"Image Url")--></image:loc>
+		</image:image>
+	</url>
+	<!--#4DENDLOOP-->
+</urlset>

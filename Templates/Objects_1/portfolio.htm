@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>
+		%{Include title.inc}%
+<!--4DIF ([Portfolios]_Port_ID > 0)-->
+		%{Portfolio Name}%
+<!--4DELSE-->
+		%{Selection Name}%
+<!--4DENDIF-->
+	</title>
+	%{Include head.inc}%
+</head>
+<!--MultipleRecords/Portfolio.htm-->
+<body>
+	%{Include header.inc}%
+	<h1>
+<!--4DIF ([Portfolios]_Port_ID > 0)-->
+		%{Portfolio Name}%
+<!--4DELSE-->
+		%{Selection Name}%
+<!--4DENDIF-->
+	</h1>
+	<!--
+	{if([Portfolios]Notes!="")}
+		<div class="smalltxt"><a href="{Link;Portfolios;notes;Portfolio ID}">View portfolio notes</a>&nbsp;&gt;</div>
+	{end if}
+	-->
+%{if(Message != "")}%
+	<p class="err">%{Message}%</p>
+%{end if}%
+	<ul class="portfolio">
+%{Start Loop}%
+		<li class="portfolioItem">
+			<div class="portfolioItemMedia"><a href="%{Link;Objects_1;info;0;first=Current Record;query=Current Selection;records=1}%" role="presentation">
+				<div class="cropImage" style="background-image:url('%{If(Has Image)}%%{preview}%%{Else}%/graphics/DefaultPreview.gif%{EndIf}%')">
+					<img alt="%{If(Has Image)}%%{[Objects_1]Disp_Title}%%{EndIf}%" class="portfolioItemImage" src="%{If(Has Image)}%%{preview}%%{Else}%/graphics/DefaultPreview.gif%{EndIf}%" />
+				</div>
+			</a></div>
+			<div class="portfolioItemMain">
+				<!--preferably no href if 404-->
+				%{If([Objects_1]Disp_Maker_1!="")}%<div><a href="%{Link;Artist_Maker;info;[Artist_Maker]_Artist_ID;records=1}%">%{[Objects_1]Disp_Maker_1}%</a></div>%{End If}%
+				<div class="portfolioItemName"><a href="%{Link;Objects_1;info;0;first=Current Record;query=Current Selection;records=1}%"><i>%{If([Objects_1]Obj_Title != "")}%%{[Objects_1]Obj_Title}%%{else}%%{[Objects_1]Disp_Title}%%{end if}%</i></a></div>
+				%{If([Objects_1]Disp_Create_DT!="")}%<div>%{[Objects_1]Disp_Create_DT}%</div>%{End If}%
+			</div>
+		</li>
+%{End Loop}%
+</ul>
+	%{Include formaddtoport.inc}%
+	%{Include addobjtoportfolio.inc}%
+	%{Include pagenavigation.inc}%
+
+	%{Include footer.inc}%
+</body></html>

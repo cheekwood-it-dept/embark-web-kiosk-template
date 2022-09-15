@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <sitemap>
+        <loc>
+            <!--#4DHTML gsFunc_GetInfo("Public URL")-->/sitemap_objects.xml
+        </loc>
+        <lastmod><!--#4DTEXT gsFunc_GetInfo ("Mod Date ISO")--></lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>
+            <!--#4DHTML gsFunc_GetInfo("Public URL")-->/sitemap_artists.xml
+        </loc>
+        <lastmod><!--#4DTEXT gsFunc_GetInfo ("Mod Date ISO")--></lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>
+            <!--#4DHTML gsFunc_GetInfo("Public URL")-->/sitemap_portfolios.xml
+        </loc>
+        <lastmod><!--#4DTEXT gsFunc_GetInfo ("Mod Date ISO")--></lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>
+            <!--#4DHTML gsFunc_GetInfo("Public URL")-->/sitemap_exhibitions.xml
+        </loc>
+        <lastmod><!--#4DTEXT gsFunc_GetInfo ("Mod Date ISO")--></lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>
+            <!--#4DHTML gsFunc_GetInfo("Public URL")-->/sitemap_bibliography.xml
+        </loc>
+        <lastmod><!--#4DTEXT gsFunc_GetInfo ("Mod Date ISO")--></lastmod>
+    </sitemap>
+    <sitemap>
+        <loc>
+            <!--#4DHTML gsFunc_GetInfo("Public URL")-->/sitemap_acquisitions.xml
+        </loc>
+        <lastmod><!--#4DTEXT gsFunc_GetInfo ("Mod Date ISO")--></lastmod>
+    </sitemap>
+    <sitemap></sitemap>
+</sitemapindex>

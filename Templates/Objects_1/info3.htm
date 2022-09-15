@@ -1,0 +1,797 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Objects-1/info.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}% - <!--#4Dtext [Objects_1]Disp_Title--></title>
+    %{Include head.inc}%
+    %{Include scripts.inc}%
+
+    <script type="text/javascript">
+        function submitPop(page, SessionID) {
+            self.document.forms["popup"].action = "/OBJ" + "?sid=" + SessionID + "&rec=" + (page + 1);
+            self.document.forms["popup"].submit();
+        }
+
+        function goFullscreen(id) {
+            var element = document.getElementById(id);
+            if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullScreen) {
+                element.webkitRequestFullScreen();
+            }
+        }
+    </script>
+    <script type="text/javascript" src="/scripts/html5media.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+    <script type="text/javascript" src="/scripts/gmaps/gmaps.js"></script>
+    <script type="text/javascript" src="/scripts/gmaps/prettify.js"></script>
+
+    <!-- mediaelement -->
+    <!-- <script src="http://mediaelementjs.com/js/mejs-2.21.0/mediaelement-and-player.min.js"></script> -->
+    <!-- <link   href="http://mediaelementjs.com/js/mejs-2.21.0/mediaelementplayer.min.css" rel="Stylesheet" /> -->
+    <!-- <link   href="http://mediaelementjs.com/js/mejs-2.21.0/mejs-skins.css" rel="stylesheet" /> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.21.0/mediaelement-and-player.min.js"></script>
+    <link   href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.21.0/mediaelementplayer.min.css" rel="Stylesheet" />
+    <link   href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/2.21.0/mejs-skins.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        var map;
+        var Lat = '<!--#4Dtext [Objects_1]User_Def_7-->';
+        var Lon = '<!--#4Dtext [Objects_1]User_Def_8-->';
+
+        $(document).ready(function() {
+            prettyPrint();
+            map = new GMaps({
+                div: '#map',
+                zoom: 5,
+                lat: Lat,
+                lng: Lon
+            });
+            map.addMarker({
+                lat: Lat,
+                lng: Lon,
+                title: '',
+                details: {
+                    database_id: 42,
+                    author: 'HPNeo'
+                },
+                click: function(e) {
+                    if (console.log)
+                        console.log(e);
+                    alert('You clicked in this marker');
+                }
+            });
+            map.addMarker({
+                lat: Lat,
+                lng: Lon,
+                title: 'Marker with InfoWindow',
+                infoWindow: {
+                    content: '<p> </p>'
+                }
+            });
+        });
+    </script>
+</head>
+
+<body class="clearfix">
+    %{Include nav.inc}%
+
+    <div class="container">
+        <h2>%{Parent Record Name;Object Results}%</h2>
+
+        <div class="row">
+            <div class="col col-sm col-md-5 col-lg-4 col-xl-4 mr-auto">
+                <form id='popup' name='popup' method='get' action='%{Link;Objects_1;info;0;query=Current Selection;records=1}%' style="text-align:center;">
+                    <input type='hidden' name='query' id='query' value='%{Current Selection}%' />
+                    <select class="form-control" name='page' title='page' id='page' onchange='document.forms["popup"].submit()'>
+                        <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Objects_1]; 1))-->  <!-- loads the first record -->
+                        <!--#4dloop [Objects_1]-->
+                            <option value='<!--#4Dtext Selected Record number([objects_1])-->' <!--#4Dif (lFirstRec = Selected Record number([objects_1])) --> selected='selected' <!--#4Dendif-->>
+                                <!--#4Dtext ([Objects_1]Disp_Title +" - " +[Objects_1]Disp_Maker_1)-->
+                            </option>
+                        <!--#4dendloop -->
+                    </select>
+                </form>
+            </div>
+
+            <!--#4DEVAL (gsFunc_EnsureCurRecordisLoaded (->[Objects_1]))-->  <!-- reloads the record -->
+
+            <div class="col col-sm col-md-4 col-lg-4 col-xl-4"> <!-- display options -->
+                <div class="display-options" style="display:inline;">
+                    <div class="navtxt">
+                        <a class="btn btn-default" href="%{Link;Objects_1;thumbnails;0;first=Current Record;query=Current Selection;records=20}%" aria-label="Go to Thumbnails view">
+                            <i class="fa fa-th" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div claass="navtxt">
+                        <a class="btn btn-default" href="%{Link;Objects_1;portfolio;0;first=Current Record;query=Current Selection;records=12}%" aria-label="Go to Portfolio view">
+                            <i class="fa fa-th-large" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div claass="navtxt">
+                        <a class="btn btn-default" href="%{Link;Objects_1;list;0;first=Current Record;query=Current Selection;records=25}%" aria-label="Stay on list view">
+                            <i class="fa fa-th-list"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        %{Include pagenavigation.inc}%
+    </div>
+
+    <hr/>
+
+    <div style="position: relative;">
+        %{Include FilterBox.html}%
+
+        <div class="container">
+            <a name="main"></a>
+
+            <div class="text-right">
+                <a class="btn btn-default" onclick="window.print();return false;" href="#">
+                    <i class="fa fa-print"></i> Print this page
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 cols-xs-12 text-center">
+                    <!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+						<!--#4Deval $fileName := gsFunc_GetImage(->[Objects_1];"Image Url")-->
+						<!--#4Dif ($fileName="@.mov") | ($fileName="@.mp4")-->  <!-- Case of MP4 or MOV movie -->
+							<video width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 300")-->"
+								   height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 300")-->"
+								   poster="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Preview Url")-->"
+								   controls="controls" preload="none">
+								<source type="video/mp4" src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Image Url")-->" />
+							</video>
+						<!--#4Delseif ($fileName="@.mp3") -->  <!-- Case of MP3 sound -->
+							<audio controls="control" preload="none"
+								   src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Image Url")-->"
+								   type="audio/mp3">
+							</audio>
+						<!--#4Delse-->  <!-- Case of still image -->
+							<a class="highslide" href="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Image Url")-->" onclick="return hs.expand(this, hs.__.paramGallery);" target="_blank">
+								<img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Preview Url")-->"
+									 height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 300")-->"
+									 width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 300")-->"
+									 alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->"
+									 style="max-width:300px;max-height:300px;" />
+							</a>
+	                    <!--#4Dendif-->
+                    <!--#4Delse-->
+                        <p>
+                            <em>This object does not have an image.</em>
+                        </p>
+                    <!--#4Dendif-->
+
+					<br><br>
+
+					<!--#4Dif gsFunc_IsLoggedIn-->
+						<div class="text-center mb-0 pb-0">
+							<button type="button" class="btn btn-outline-primary btn-sm"
+									data-toggle="modal"
+									data-target="#exampleModalCenter"
+									data-object-id="<!--#4Dtext [Objects_1]_Objects_1_ID-->"
+									data-object-name="<!--#4Dtext [Objects_1]Disp_Title-->">
+								Add to Portfolio
+							</button>
+						</div>
+					<!--#4Dendif-->
+
+
+                    <!-- Zoomify HTML5 link. You must use the Zoomify utility available at http://www.zoomify.com to convert your high-res files to Zoomify format. -->
+                    <!-- Save ZoomifyImageViewer-min.js to the webfolder/scripts directory. Purchase file at http://www.zoomify.com -->
+
+
+                    <!--#4Dif ([Objects_1]Disp_Title # "")-->
+                        <p>
+                            <a class="btn btn-default small" href="%{Link;Objects_1;zoomobject5;0;first=Current Record;query=Current Selection;records=1}%" aria-label="View Zoomify Image">
+                                View <br/> Zoomable Image
+                            </a>
+                        </p>
+                    <!--#4Dendif-->
+
+                    <!-- Sample code for the 'SubmitFile' feature. Template that opens is custom/sampleform.htm -->
+                    <p>
+                        <a class="btn btn-default small" href="%{Link;Objects_1;SampleForm;0;first=Current Record;query=Current Selection;records=1}%" aria-label="ADD COMMENT">
+                            Add Comment
+                        </a>
+
+                    </p>
+                    <!-- Sample code end -->
+
+%{SKIP START}%
+                    <!-- Add This Button BEGIN -->
+                    <!-- This code must be updated for your own AddThis account at http://www.addthis.com. Please note the example for customizing the URL to make a bookmarkable URL without session id information. -->
+                    <p>
+                        <a href="http://www.addthis.com/bookmark.php" onclick="addthis_url='/objects-1/info<!--#4DTEXT [Objects_1]_Objects_1_ID-->';  addthis_title = document.title; return addthis_click(this);" target="_blank">
+                            <img src="http://s9.addthis.com/button1-bm.gif" width="125" height="16" border="0" alt="Bookmark and Share" />
+                        </a>
+                        <script type="text/javascript">
+                            var addthis_pub = '<your account name>';
+                        </script>
+                        <script type="text/javascript" src="http://s9.addthis.com/js/widget.php?v=10"></script>
+                    </p>
+                    <!-- AddThis Button END -->
+%{SKIP END}%
+
+                    <p>
+                        Bookmark: <a href="<!--#4DHTML gsFunc_GetInfo("Public URL")-->/objects-1/info/<!--#4DTEXT [Objects_1]_Objects_1_ID-->" target="_blank"><!--#4DHTML gsFunc_GetInfo("Public URL")-->/objects-1/info/<!--#4DTEXT [Objects_1]_Objects_1_ID--></a>
+                    </p>
+                </div>
+
+                <div class="col">
+                    <h4>
+                        <!--#4Dtext [Objects_1]Disp_Title-->
+                    </h4>
+
+                    <!--#4Dif ([Objects_1]Disp_Create_DT # "")-->
+                        <!--#4Dtext [Objects_1]Disp_Create_DT--><br/>
+                    <!--#4Dendif-->
+                    <!--#4Dif ([Objects_1]Century # "")-->
+                        <!--#4Dtext [Objects_1]Century--><br/>
+                    <!--#4Dendif-->
+                    <!--#4Dif ([Objects_1]Disp_Dimen # "")-->
+                        <!--#4Dtext [Objects_1]Disp_Dimen--><br/>
+                    <!--#4Dendif-->
+
+                    <br/>
+
+                    <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Artist_Maker]) -->
+                    <!--#4Dif (Records in selection([Artist_Maker])>0)-->
+                    <!--#4DEVAL gsFunc_SortRecords (->[Object_Artist]Seq_ID; ">")-->
+                        <!--#4DLOOP [Object_Artist]-->
+                            <!--#4DEVAL gsFunc_SpecialFieldQuery (->[Artist_Maker]_Artist_ID; String([Object_Artist]_Artist_ID))-->
+                            <!--#4Dtext [Object_Artist]Attribution-->
+                            <a href="/artist-maker/info/<!--#4Dtext [Object_Artist]_Artist_ID-->">
+                                 <!--#4Dtext [Artist_Maker]Full_Name-->,
+                            </a>
+
+                            <!--#4Dif (([Artist_Maker]Start_Date_Disp # "") & ([Artist_Maker]End_Date_Disp # "")  & ([Artist_Maker]Life # FALSE))-->
+                            <!--#4Dif ([Artist_Maker]Nat_Culture_L2 # "")-->
+                            <!--#4Dtext [Artist_Maker]Nat_Culture_L2-->, <!--#4Dendif-->
+                            (<!--#4Dtext [Artist_Maker]Start_Date_Disp-->&#x2013;<!--#4Dtext [Artist_Maker]End_Date_Disp-->)
+                            <!--#4Dendif-->
+
+                            <!--#4Dif (([Artist_Maker]Start_Date_Disp # "") & ([Artist_Maker]End_Date_Disp # "")  & ([Artist_Maker]Life = FALSE))-->
+                            <!--#4Dif ([Artist_Maker]Nat_Culture_L2 # "")-->
+                            <!--#4Dtext [Artist_Maker]Nat_Culture_L2-->, <!--#4Dendif-->
+                             (active <!--#4Dtext [Artist_Maker]Start_Date_Disp-->&#x2013;<!--#4Dtext [Artist_Maker]End_Date_Disp-->)
+                            <!--#4Dendif-->
+
+                            <!--#4Dif (([Artist_Maker]Start_Date_Disp # "") & ([Artist_Maker]End_Date_Disp = ""))-->
+                            <!--#4Dif ([Artist_Maker]Nat_Culture_L2 # "")-->
+                            <!--#4Dtext [Artist_Maker]Nat_Culture_L2-->, <!--#4Dendif-->
+                             b. <!--#4Dtext [Artist_Maker]Start_Date_Disp-->
+                            <!--#4Dendif-->
+
+                            <!--#4Dif (([Artist_Maker]Start_Date_Disp = "") & ([Artist_Maker]End_Date_Disp # ""))-->
+                            <!--#4Dif ([Artist_Maker]Nat_Culture_L2 # "")-->
+                            <!--#4Dtext [Artist_Maker]Nat_Culture_L2-->, <!--#4Dendif-->
+                             d. <!--#4Dtext [Artist_Maker]End_Date_Disp-->
+                            <!--#4Dendif-->
+
+                            <!--#4Dif (([Artist_Maker]Start_Date_Disp = "") & ([Artist_Maker]End_Date_Disp = ""))-->
+                            <!--#4Dif ([Artist_Maker]Nat_Culture_L2 # "")-->
+                            <!--#4Dtext [Artist_Maker]Nat_Culture_L2--><!--#4Dendif-->
+                            <!--#4Dendif-->
+
+
+                            <!--#4Dif ([Object_Artist]Role # "")-->
+                                <em>
+                                  <!--#4Dtext gsFunc_Concat(", "; [Object_Artist]Role; [Object_Artist]Place; [Object_Artist]Disp_Cont_Date; [Object_Artist]Seq_ID)-->
+                                </em>
+                            <!--#4Dendif-->
+                            <br/>
+                        <!--#4Dendloop-->
+                    <!--#4Dendif-->
+                    <br/>
+
+                    <!--#4Dif ([Objects_1]Disp_Obj_Type # "")-->
+                        <div>
+                            <strong>Object Type:</strong>
+                            <!--#4Dtext [Objects_1]Disp_Obj_Type-->
+                        </div>
+                    <!--#4Dendif-->
+
+
+                    <!--#4Dif ([Objects_1]Curator # 0)-->
+                        <div>
+                            <strong>Curator:</strong>
+                            <!--#4Dtext gsFunc_GetAgentName([Objects_1]Curator; ->[Agents]Name)-->, <!--#4Dtext gsFunc_GetAgentName([Objects_1]Curator; ->[Agents]Institution)-->
+                        </div>
+                    <!--#4Dendif-->
+
+                    <!--#4Dif ([Objects_1]Creation_Place1 # "")-->
+                        <div>
+                            <strong>Creation Place:</strong>
+                            <!--#4Dtext gsFunc_Concat(", "; [Objects_1]Creation_Place1; [Objects_1]Creation_Place2; [Objects_1]Creation_Place3)-->
+                        </div>
+                    <!--#4Dendif-->
+
+                    <!--#4Dif ([Objects_1]Disp_Medium # "")-->
+                        <div>
+                            <strong>Medium and Support:</strong>
+                            <!--#4Dtext [Objects_1]Disp_Medium-->
+                        </div>
+                    <!--#4Dendif-->
+
+                    <!--#4Dif ([Objects_1]Dedication # "")-->
+                        <div>
+                            <strong>Credit Line:</strong>
+                            <!--#4Dhtml gsFunc_DisplayEmbeddedHTML (->[Objects_1]Dedication)-->
+                        </div>
+                    <!--#4Dendif-->
+
+                    <!--#4Dif ([Objects_1]Disp_Access_No # "")-->
+                        <div>
+                            <strong>Accession Number:</strong>
+                            <!--#4Dtext [Objects_1]Disp_Access_No-->
+                        </div>
+                    <!--#4Dendif-->
+
+                    <!--#4Dif ([Objects_1]Info_Page_Comm # "")-->
+                        <div>
+                            <!--#4Dhtml gsFunc_DisplayEmbeddedHTML (->[Objects_1]Info_Page_Comm)-->
+                        </div>
+                    <!--#4Dendif-->
+
+                    <!--#4Dif ([Objects_1]CurrentLocation # "")-->
+                        <div>
+                            <strong>Current Location:</strong>
+                            <!--#4Dtext [Objects_1]CurrentLocation-->
+                        </div>
+                    <!--#4Dendif-->
+
+                    <p>
+                    <!-- Alternate current Location Display. Assumes on view locations have "east" in the location -->
+					<!--#4Dif ([Objects_1]CurrentLocation = "@east@")-->
+    					<!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Location])-->
+    					<!--#4DEVAL gsFunc_FilterLoadedRecords (->[Location]Current_Loc; "#"; "FALSE")-->
+    					<!--#4Dif (Records in Selection([Location]) > 0)-->
+    						<!--#4DLOOP [Location]-->
+    							<div>
+    								<strong>Current Location:</strong>
+    								<!--#4Dtext gsFunc_Concat(" : "; [Location]Location_2; [Location]Location_3; [Location]Location_6; [Location]Location_6; [Location]Location_6)-->
+    							</div>
+    						<!--#4DENDLOOP-->
+    					<!--#4Dendif-->
+					<!--#4Dendif-->
+                </div>
+            </div>
+
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Object_Notes])-->
+            <!--#4Dif (Records in Selection([Object_Notes]) > 0)-->
+            <!--#4DEVAL gsFunc_SortRecords (->[Object_Notes]Field_Name; ">")-->
+                <!--#4DLOOP [Object_Notes]-->
+                    <p>
+                        <div class="lead p-1 border-bottom bg-light mt-4"><!--#4Dtext [Object_Notes]Field_Name--></div>
+                        <!--#4DHTML gsFunc_DisplayEmbeddedHTML(->[Object_Notes]Text)-->
+                    </p>
+                <!--#4DENDLOOP-->
+            <!--#4Dendif-->
+
+
+
+%{skip start}%
+           <!-- Publish a specific object note-->
+			<div class="embarkInfoDescription">
+				<h2>Commentary</h2>
+				<div class="embarkInfoNotes">
+				<!--#4DSCRIPT/LoadObjectNotes/Commentary-->
+				<!--#4Dif (Records in Selection([Object_Notes]) > 0)-->
+				<!--#4DHTML gsFunc_DisplayEmbeddedHTML(->[Object_Notes]Text)--><br>
+				<span class="small text-muted">Last Updated: <!--#4Dtext [Object_Notes]Mod_Date--></span>
+				<br /><br />
+				<!--#4Dendif-->
+				</div>
+			</div>
+%{skip end}%
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Keywords])-->
+            <!--#4Dif (Records in Selection([Keywords]) > 0)-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead"> Keywords</span>
+                        <em class="small text-muted">
+                            Click a term to view the records with the same keyword<br>
+							<a class="m-4" data-toggle="collapse" href="#kwnote" role="button" aria-expanded="false" aria-controls="collapseExample">
+								<span class="small text-muted">Click here to show Keyword Descriptions</span>
+							</a>
+                        </em>
+                    </div>
+					<ul class="ml-5">
+
+                        <!--#4DLOOP [Keywords]-->
+                            <li>
+                                <a class="text-nowrap" href="/objects-1/thumbnails?records=20&query=keywordPath=<!--#4Dtext [Keywords]_New_Pathnums-->">
+                                    <!--#4Dtext [Keywords]Word-->
+                                </a>
+                                <!--#4Dif ([Keywords]Notes # "")-->
+                                      <span class="small text-muted">
+                                          <br/>
+										<div class="collapse" id="kwnote">
+										<div class="card card-body">
+                                          <!--#4DHTML gsFunc_DisplayEmbeddedHTML(->[Keywords]Notes) -->
+										</div>
+										</div>
+                                      </span>
+                                <!--#4Dendif-->
+                            </li>
+                        <!--#4DENDLOOP-->
+						</ul>
+
+                </p>
+            <!--#4Dendif-->
+
+
+            <!-- Display map with gmaps.js -->
+            <!-- This code is dependent on having Latitude and Longitude data in two object fields, such as User_Def_7 and User_Def_8 in the example below.  The code can be changed for any two Object fields. Be sure to adjust the script in the header if different fields are used. -->
+            <!--#4Dif (([Objects_1]User_Def_7 # "") & ([Objects_1]User_Def_8 # "")) -->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Location</span>
+                        <em class="small text-muted">
+                            Latitude: <!--#4Dtext [Objects_1]User_Def_7-->, Longitude: <!--#4Dtext [Objects_1]User_Def_8-->
+                        </em>
+                    </div>
+                    <div class="poapin">
+                        <div id="map"></div>
+                    </div>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Surrogates])-->
+            <!--#4Dif (Records in Selection([Surrogates]) > 0)-->
+				<p>
+					<div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Linked Surrogates</span>
+					</div>
+					<a href="<!--4Dtext gsFunc_Link("Surrogates;thumbnails;0;records=24;query=Objects_1=_ID")-->" aria-label="Browse surrogates linked to this Object in a new window">
+						Browse additional images List
+					</a>
+				</p>
+            <!--#4Dendif-->
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Exhibitions])-->
+            <!--#4Dif (Records in Selection([Exhibitions]) > 0)-->
+                <!--#4DEVAL gsFunc_SortRecords (->[Exhibitions]start_date; ">")-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Exhibition List</span>
+                    </div>
+                    This object was included in the following exhibitions:
+                    <ul class="ml-5">
+                        <!--#4DLOOP [Exhibitions] -->
+                        <li>
+                            <a href="/exhibitions/info/<!--#4Dtext [Exhibitions]_Exhibition_ID-->">
+                                <!--#4Dtext [Exhibitions]Exhibition_Name-->
+                            </a>
+                            <span class="small text-muted">
+                                <!--#4Dtext gsFunc_GetAgentName([Exhibitions]Organizing_Inst; ->[Agents]Institution)-->
+                                , <!--#4Dtext [Exhibitions]start_date--> - <!--#4Dtext [Exhibitions]end_date-->
+                            </span>
+                        </li>
+                        <!--#4DENDLOOP-->
+                    </ul>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Dimensions])-->
+            <!--#4DEVAL gsFunc_FilterLoadedRecords (->[Dimensions]Dimen_Subject; "#"; "")-->
+            <!--#4Dif (Records in Selection([Dimensions]) > 0)-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Dimensions</span>
+                    </div>
+                    <ul class="ml-5">
+                        <!--#4DLOOP [Dimensions] -->
+                        <li>
+                            <!--#4Dtext [Dimensions]Dimen_Subject-->
+                            <!--#4Dif ([Dimensions]Disp_Dimen#"")-->
+                                Dimensions: <!--#4Dtext [Dimensions]Disp_Dimen-->
+                            <!--#4Dendif-->
+                            <!--#4Dif ([Dimensions]Measured_by#0)-->
+                                <small>
+                                    Measured by <!--#4Dtext gsFunc_GetAgentName([Dimensions]Measured_by; ->[Agents]Sort_Name)-->
+                                </small>
+                            <!--#4Dendif-->
+                        </li>
+                        <!--#4DENDLOOP-->
+                    </ul>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Provenance])-->
+            <!--#4DEVAL gsFunc_FilterLoadedRecords (->[Provenance]Owner_Name; "#"; "")-->
+            <!--#4DEVAL gsFunc_SortRecords (->[Provenance]_Owner_S_Early; ">")-->
+            <!--#4Dif (Records in Selection([Provenance]) > 0)-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Provenance History</span>
+                    </div>
+                    <ul class="ml-5">
+                        <!--#4DLOOP [Provenance] -->
+                        <li>
+                            <strong>Owner Name:</strong> <!--#4Dtext [Provenance]Owner_Name-->
+                            <br/>
+                            <!--#4Dif ([Provenance]Owner_Role#"")-->
+                                <strong>Role:</strong> <!--#4Dtext [Provenance]Owner_Role-->
+                                <br/>
+                            <!--#4Dendif-->
+                            <!--#4Dif ([Provenance]Owner_Place#"")-->
+                                <strong>Place:</strong> <!--#4Dtext [Provenance]Owner_Place-->
+                                <br/>
+                            <!--#4Dendif-->
+                            <strong>Dates:</strong> <!--#4Dtext gsFunc_Concat(", "; [Provenance]Owner_Start_Dis; [Provenance]Owner_End_Dis)-->
+                            <br/><br/>
+                        </li>
+                        <!--#4DENDLOOP-->
+                    </ul>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Acquisition])-->
+            <!--#4DEVAL gsFunc_FilterLoadedRecords (->[Acquisition]acq_status; "#"; "")-->
+            <!--#4Dif (Records in Selection([Acquisition]) > 0)-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Acquisition List</span>
+                    </div>
+                    This object was included in the following acquisitions:
+                    <ul class="ml-5">
+                        <!--#4DLOOP [Acquisition] -->
+                            <li>
+                                <a href="/acquisition/info/<!--#4Dtext [Acquisition]_Acq_ID-->">
+                                    <!--#4Dtext [Acquisition]Acq_Name-->
+                                </a>
+                                <!--#4Dif ([Acquisition]Acq_Agen # 0)-->
+                                    , <!--#4DEVAL gsFunc_GetAgentName([Acquisition]Acq_Agen; ->[Agents]Institution)-->
+                                <!--#4Dendif-->
+                                <!--#4Dif ([Acquisition]acq_date # !00/00/00!)-->
+                                    , <!--#4Dtext[Acquisition]acq_date-->
+                                <!--#4Dendif-->
+                            </li>
+                        <!--#4DENDLOOP-->
+                    </ul>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Biblio_Citation])-->
+            <!--#4Dif (Records in Selection([Biblio_Citation]) > 0)-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Bibliography List</span>
+                    </div>
+                    This object has the following bibliographic references:
+                    <ul class="ml-5">
+                        <!--#4DLOOP [Biblio_Citation] -->
+                            <li>
+                                <!--#4Dif ([Biblio_Citation]Doc_Author_1 # 0)-->
+                                    <!--#4Dif ([Biblio_Citation]Doc_Author_2 # 0)-->
+                                        <!--#4Dtext gsFunc_GetAgentName([Biblio_Citation]Doc_Author_1; ->[Agents]Name)-->
+                                        and <!--#4Dtext gsFunc_GetAgentName([Biblio_Citation]Doc_Author_2; ->[Agents]Name)-->.
+                                    <!--#4Delse-->
+                                        <!--#4Dtext gsFunc_GetAgentName([Biblio_Citation]Doc_Author_1; ->[Agents]Name)-->.
+                                    <!--#4Dendif-->
+                                <!--#4Delse-->
+                                    <!--#4Dif ([Biblio_Citation]Doc_Editor # 0)-->
+                                        <!--#4Dtext gsFunc_GetAgentName([Biblio_Citation]Doc_Editor; ->[Agents]Name)-->, ed.
+                                    <!--#4Dendif-->
+                                <!--#4Dendif-->
+
+                                <a href="/biblio-citation/info/<!--#4Dtext [Biblio_Citation]_Bibliography_ID-->"><!--#4Dtext [Biblio_Citation]Doc_title--></a>.
+
+                                <!--#4Dtext [Biblio_Citation]Doc_title-->
+
+                                <!--#4Dif ([Biblio_Citation]Publisher # "")-->
+                                    <!--#4Dtext [Biblio_Citation]Publisher-->.
+                                <!--#4Dendif-->
+
+                                <!--#4Dtext gsFunc_Concat(", "; [Biblio_Citation]Doc_Pub_Place; [Biblio_Citation]Doc_Date)-->
+
+                                <!--#4DEVAL gsFunc_SpecialFieldQuery (->[Object_Biblio]_Biblio_ID; String([Biblio_Citation]_Bibliography_ID))-->
+                                <!--#4DEVAL gsFunc_FilterLoadedRecords (->[Object_Biblio]_Obj_ID; "="; String([Objects_1]_Objects_1_ID))-->
+                                <!--#4Dif (([Object_Biblio]Page_Nums # "") | ([Object_Biblio]Figure_Nums # ""))-->
+                                    <br/>
+                                    <small class="text-muted">
+                                        <!--#4Dif ()([Object_Biblio]Page_Nums # "") & ([Object_Biblio]Figure_Nums # ""))-->
+                                            Page Number: <!--#4Dtext [Object_Biblio]Page_Nums-->,
+                                            Figure Number: <!--#4Dtext [Object_Biblio]Figure_Nums-->
+                                        <!--#4Delseif ([Object_Biblio]Page_Nums # "")-->
+                                            Page Number: <!--#4Dtext [Object_Biblio]Page_Nums-->
+                                        <!--#4Delseif ([Object_Biblio]Figure_Nums # "")-->
+                                            Figure Number: <!--#4Dtext [Object_Biblio]Figure_Nums-->
+                                        <!--#4Dendif-->
+                                    </small>
+                                <!--#4Dendif-->
+
+							<!--#4DEVAL gsFunc_LoadChildRecords (->[Object_Biblio]; ->[Surrogates])-->
+							<!--#4Dif (Records in Selection([Surrogates]) > 0)-->
+								<div class="d-flex flex-wrap align-self-start">
+									<!--#4DLOOP [Surrogates]-->
+										<div class="m-2">
+											<a class="item highslide" href="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Image Url")-->" onclick="return hs.expand(this, hs.__.paramGallery);">
+												<img src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Thumbnail Url")-->" style="max-width:128px;max-height:128px;"
+													 alt="Additional Image <!--#4Dtext ([Surrogates]View_1)-->" />
+											</a>
+											<!--#4Dif ([Surrogates]View_1 # "")-->
+												<br/>
+												<span class="small text-muted"><!--#4Dtext [Surrogates]View_1--></span>
+											<!--#4Dendif-->
+										</div>
+									<!--#4DENDLOOP-->
+								</div>
+							<!--#4Dendif-->
+
+                            </li>
+                        <!--#4DENDLOOP-->
+                    </ul>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4DEVAL $currentObjectId := [Objects_1]_Objects_1_ID)-->  <!-- store our current record ID -->
+            <!--#4Dif gsFunc_ObjectHasRelatedObjects ($currentObjectId; "Parent")-->
+                <!--#4DEVAL gsFunc_SortRecords(->[Objects_1]Disp_Access_No; ">")-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Related Parent(s)</span>
+                        <em class="small text-muted">
+                            Click a record to view
+                        </em>
+                    </div>
+                    <div class="d-flex flex-wrap align-self-start">
+                        <!--#4DLOOP [Objects_1]-->
+                            <div class="m-2">
+                                <a href="/objects-1/info/<!--#4Dtext [Objects_1]_Objects_1_ID-->">
+                                    <!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Thumbnail Url")-->"
+                                             height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 128")-->"
+                                             width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 128")-->"
+                                             alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->"
+                                             style="max-width:128px;max-height:128px;" />
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultThumbnail.gif" alt="No image thumbnail available." />
+                                    <!--#4Dendif-->
+                                    <br/>
+                                    <!--#4Dtext [Objects_1]Disp_Title-->
+                                </a>
+                                <!--#4Dif ([Objects_1]Disp_Access_No # "")-->
+                                    <br/>
+                                    <small class="text-muted"><!--#4Dtext [Objects_1]Disp_Access_No--></small>
+                                <!--#4Dendif-->
+                            </div>
+                        <!--#4DENDLOOP-->
+                    </div>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4Dif gsFunc_ObjectHasRelatedObjects ($currentObjectId; "Sibling")-->
+                <!--#4DEVAL gsFunc_SortRecords(->[Objects_1]Disp_Access_No; ">")-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Related Siblings(s)</span>
+                        <em class="small text-muted">
+                            Click a record to view
+                        </em>
+                    </div>
+                    <div class="d-flex flex-wrap align-self-start">
+                        <!--#4DLOOP [Objects_1]-->
+                            <div class="m-4">
+                                <a href="/objects-1/info/<!--#4Dtext [Objects_1]_Objects_1_ID-->">
+                                    <!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Thumbnail Url")-->"
+                                             height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 128")-->"
+                                             width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 128")-->"
+                                             alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->"
+                                             style="max-width:128px;max-height:128px;" />
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultThumbnail.gif" alt="No image thumbnail available." />
+                                    <!--#4Dendif-->
+                                    <br/>
+                                    <!--#4Dtext [Objects_1]Disp_Title-->
+                                </a>
+                                <!--#4Dif ([Objects_1]Disp_Access_No # "")-->
+                                    <br/>
+                                    <small class="text-muted"><!--#4Dtext [Objects_1]Disp_Access_No--></small>
+                                <!--#4Dendif-->
+                            </div>
+                        <!--#4DENDLOOP-->
+                    </div>
+                </p>
+            <!--#4Dendif-->
+
+            <!--#4Dif gsFunc_ObjectHasRelatedObjects ($currentObjectId; "Children")-->
+                <!--#4DEVAL gsFunc_SortRecords(->[Objects_1]Disp_Access_No; ">")-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Related Children(s)</span>
+                        <em class="small text-muted">
+                            Click a record to view
+                        </em>
+                    </div>
+                    <div class="d-flex flex-wrap align-self-start">
+                        <!--#4DLOOP [Objects_1]-->
+                            <div class="m-4">
+                                <a href="/objects-1/info/<!--#4Dtext [Objects_1]_Objects_1_ID-->">
+                                    <!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Thumbnail Url")-->"
+                                             height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 128")-->"
+                                             width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 128")-->"
+                                             alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->"
+                                             style="max-width:128px;max-height:128px;" />
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultThumbnail.gif" alt="No image thumbnail available." />
+                                    <!--#4Dendif-->
+                                    <br/>
+                                    <!--#4Dtext [Objects_1]Disp_Title-->
+                                </a>
+                                <!--#4Dif ([Objects_1]Disp_Access_No # "")-->
+                                    <br/>
+                                    <small class="text-muted"><!--#4Dtext [Objects_1]Disp_Access_No--></small>
+                                <!--#4Dendif-->
+                            </div>
+                        <!--#4DENDLOOP-->
+                    </div>
+                </p>
+            <!--#4Dendif-->
+
+
+            <!--#4DEVAL gsFunc_SpecialFieldQuery (->[Objects_1]_Objects_1_ID; String($currentObjectId))-->
+            <!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Portfolios])-->
+            <!--#4DEVAL gsFunc_SortRecords (->[Portfolios]Port_Name; ">")-->
+            <!--#4Dif (Records in Selection([Portfolios]) > 0)-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Portfolio List</span>
+                        <em class="small text-muted">
+                            Click a portfolio name to view all the objects in that portfolio
+                        </em>
+                    </div>
+                    This object is a member of the following portfolios:
+                    <div class="d-flex flex-wrap align-self-start">
+                        <!--#4DLOOP [Portfolios]-->
+                            <div class="m-4">
+                                <a href="<!--4Dtext gsFunc_Link("Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID")-->&portfolioName=<!--#4Dtext [Portfolios]Port_Name-->">
+                                    <!--#4Dif (gsFunc_HasImage(->[Portfolios]))-->
+										<img src="<!--#4Dvar gsFunc_GetImage (->[Portfolios];"Thumbnail Url")-->"
+											  height="<!--#4Dvar gsFunc_GetImage (->[Portfolios];"Proportional Height max 128")-->"
+											  width="<!--#4Dvar gsFunc_GetImage (->[Portfolios];"Proportional Width max 128")-->"
+											  alt="Thumbnail image of <!--#4Dtext [Portfolios]Port_Name-->">
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultThumbnail.gif" alt="No image thumbnail available." />
+                                    <!--#4Dendif-->
+                                    <br/>
+                                    <!--#4Dtext [Portfolios]Port_Name-->
+                                </a>
+                            </div>
+                        <!--#4DENDLOOP-->
+                    </div>
+                </p>
+            <!--#4Dendif-->
+
+        </div>
+    </div>
+
+    <!-- <div id="clearDiv"></div> -->
+
+    <div class="container">
+        %{Include selectiondescription.inc}%
+        %{Include view_selection_as.inc}%
+
+        <br>
+        %{Include formaddtoport.inc}%
+        <br>
+        <br>
+
+        %{Include addobjtoportfolio.inc}%
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

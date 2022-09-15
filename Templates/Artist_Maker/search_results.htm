@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include head.inc}% %{Selection Name}%</title>
+	%{Include head.inc}%
+</head>
+<!--MultipleRecords/SearchResults/Artist.htm-->
+<body>
+	%{Include header.inc}%
+	<h1>%{Selection Name}%</h1>
+%{if(Message != "")}%
+	<p class="err">%{Message}%</p>
+%{end if}%
+	%{Include pagenavigation.inc}%
+	<!-- display options start -->
+	<div class="display-options">
+		<div class="smalltxt">View:</div>
+		<div class="navtxt">
+			<img src="/graphics/icon2.gif" width="12" height="12" alt=""/>
+			<a href="%{Link;Artist_Maker;list;0;first=Current Record;query=Current Selection;records=100}%&&amp;sid=&amp;x=%{Sequence}%">text list</a>
+		</div>
+		<div class="navtxt">
+			<img src="/graphics/icon3.gif" width="12" height="12" alt=""/>
+			<a href="%{Link;Artist_Maker;info;_ID}%?&amp;sid=&amp;x=%{Sequence}%">biography</a>
+		</div>
+	</div>
+	<form id='popup' name='popup' method='get' action='%{Link;Artist_Maker;info;0;query=Current Selection;records=1}%'><input type='hidden' name='query' id='query' value='%{Current Selection}%'/><select name='page' id='page' onchange='document.forms["popup"].submit()'>%{Start loop(Current Selection)}%<option value='%{Loop Index}%'%{If(First Record=Loop Index)}% selected='selected'%{End if}%>%{[Artist_Maker]Sort_Name}%</option>%{End loop}%</select></form>
+
+	<ul>
+		%{Start Loop}%
+			<li>
+			%{If(Has Image)}%
+				<div>
+					<a href="%{Link;Artist_Maker;info;0;first=Current Record;query=Current Selection;records=1}%"><img src="%{Thumbnail}%" height="%{Thumbnail Height}%" alt=""/></a>
+				</div>
+			%{Else}%
+	<!--
+				<img src="/graphics/DefaultPostage.gif" alt=""/>
+	-->
+			%{EndIf}%
+				<div>
+					<div><a href="%{Link;Artist_Maker;info;0;first=Current Record;query=Current Selection;records=1}%">%{[Artist_Maker]Display_Name}%</a></div>
+					<div>%{[Artist_Maker]Nat_Culture_L2}%</div>
+					<div>%{[Artist_Maker]Disp_Maker_Life}%</div>
+				</div>
+			</li>
+		%{End Loop}%
+	</ul>
+
+	%{Include footer.inc}%
+</body></html>

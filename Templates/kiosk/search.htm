@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en" class="page-search">
+<head>
+	<title>%{Include title.inc}% Advanced Search</title>
+	%{Include head.inc}%
+</head>
+<!--Kiosk Pages/search.htm-->
+<body>
+	%{Include header.inc}%
+	<h1>Advanced Search</h1>
+	<form class="embarkAdvancedSearchForm gform_wrapper form" id="Search" name="Search" action="/4DACTION/HANDLECGI/Search" method="post">
+		<input type="hidden" name="SearchTable" value="Objects_1" />
+		<input type="hidden" name="display" value="list" />
+		<input type="hidden" name="records" value="12" />
+		<div class="row">
+			<input type="hidden" name="SearchOp2" value="contains" />
+			<input type="hidden" name="SearchField2" value="sort_Artist"/>
+			<label>
+				<span class="gfield_label">Artist</span>
+				<input type="text" size="80" name="SearchValue2" value=""/>
+			</label>
+		</div>
+		<div class="row">
+			<input type="hidden" name="SearchOp1" value="contains" />
+			<input type="hidden" name="SearchField1" value="Disp_Title"/>
+			<label>
+				<span class="gfield_label">Title</span>
+				<input type="text" size="80" id="SearchValue1" name="SearchValue1" value=""/>
+			</label>
+		</div>
+		<div class="row">
+			<input type="hidden" name="SearchOp3" value="contains" />
+			<input type="hidden" name="SearchField3" value="Disp_medium"/>
+			<label>
+				<span class="gfield_label">Medium</span>
+				<input type="text" size="80" id="SearchValue3" name="SearchValue3" value=""/>
+			</label>
+		</div>
+		<div class="row dateField">
+			<input type="hidden" name="SearchOp7" value=">=" />
+			<input type="hidden" name="SearchOp8" value="<=" />
+			<input type="hidden" name="SearchField7" value="Start Date"/><input type="hidden" name="SearchField8" value="End Date"/>
+			<label for="SearchValue7" class="gfield_label">Date<span class="sro"> Start</span></label>
+			<input id="SearchValue7" type="text" size="10" name="SearchValue7" value=""/>
+			<span class="dateRangeDivider">-</span>
+			<label class="sro" for="SearchValue8">Date End</label>
+			<input id="SearchValue8" type="text" size="10" name="SearchValue8" value=""/>
+		</div>
+		<div class="row">
+			<input type="hidden" name="SearchOp9" value="any" />
+			<!--!!! this is the "quick search", eg all fields. make sure this includes keywords.  Is there a keyword only field? -->
+			<input type="hidden" name="SearchField9" value="mfs"/>
+			<label>
+				<span class="gfield_label">Keywords</span>
+				<input type="text" size="80" name="SearchValue9" value=""/>
+			</label>
+		</div>
+		<div class="row checkboxField">
+			<label><input type="checkbox" name="ImagesOnly" value="1"/> with images only</label>
+		</div>
+		<button class="button" type="submit">Find</button>
+
+	</form>
+
+	%{if(Records)}%
+		<p>
+			<div><b>Your current selection of %{Records - Object}% records is:</b></div>
+			<div>%{Selection Name Object}%</div>
+		</p>
+	%{end if}%
+
+	%{Include footer.inc}%
+</body></html>

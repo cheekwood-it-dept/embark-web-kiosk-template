@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}%</title>
+	%{Include head.inc}%
+	<script type="text/javascript">
+	<!--
+	function showUser(userList,sessionID) {
+
+		// filter the portfolio list for a single author
+
+		if(userList.selectedIndex>0) {
+			if(userList.selectedIndex==1) {
+				document.userSelection.action="{Link;Portfolios;community;0;records=30;community=t}&sid="+sessionID ;
+			}
+			else {
+				document.userSelection.action= "/PRU"+userList.options[userList.selectedIndex].value+"?sid="+sessionID ;
+			}
+			document.userSelection.submit();
+		}
+	}
+	//-->
+</script>
+</head>
+<!--SharedPortfolioIndex.htm-->
+<body>
+	%{Include header.inc}%
+
+	<h1>User Galleries</h1>
+
+	<p>This page highlights portfolios of objects that have been created by users. In some cases, the gallery creator may have attached a note about why they chose to group a particular set of objects. In all cases, these are the galleries that they specifically chose to share with you. Browse and enjoy.</p>
+
+	<form id="userSelection" name="userSelection" action="" method="get">
+			<input type="hidden" value="" name="sid"/>
+
+		Filter for galleries by:&nbsp;
+		<select name="userPopup" onchange="showUser(this,);">
+			<option>- - - Select a user - - -</option>
+			<option>* All Users</option>
+			%{popup;users}%
+		</select>
+
+	</form>
+
+	<br/><br/>
+
+	%{Include pagenavigation.inc}%
+
+	<!--4DIF (lRecords>0)-->
+		<table cellpadding="0" cellspacing="0" width="100%">
+
+			<!-- The following will be repeated for each record in the page.
+					 The kiosk will take care of inserting <tr> tags as appropriate. -->
+
+			%{Start Loop}%
+
+				<td valign="top">
+					<a href="%{Link;Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID}%">%{Portfolio Name}%</a><br/>
+					%{Portfolio Size}% record(s)<br/>
+					Created by: %{Portfolio Owner}%<br/>
+					Notes: %{[Portfolios]Notes}%<br/>
+				</td>
+
+				<td width="20"> </td>
+
+			%{End Loop}%
+
+		</table>
+	<!--4DELSE-->
+		<p class="err">There are no published user galleries at this time.</p>
+	<!--4DENDIF-->
+
+	%{Include footer.inc}%
+</body></html>

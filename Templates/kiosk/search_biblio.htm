@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en">
+<head>
+		<title>%{Include title.inc}% - Bibliography Search</title>
+		%{Include head.inc}%
+		<script language="javascript" type="text/javascript">
+				function setHier(selectName, parentField, childField) {
+						var selItem = document.forms["Search"].elements[selectName].selectedIndex;
+						var selValue = document.forms["Search"].elements[selectName].options[selItem].value;
+						if (selValue.substring(0, 5) == "sub::") {
+								document.forms["Search"].elements[childField].value = selValue;
+						} else {
+								document.forms["Search"].elements[parentField].value = selValue;
+								document.forms["Search"].elements[childField].value = "";
+						}
+				}
+		</script>
+</head>
+<!--kiosk/search_exhibition.htm-->
+<body>
+		%{Include header.inc}%
+		<div id="head" class="container">
+				<a name="main"></a>
+
+				<ul class="nav nav-tabs mt-2" role="navigation">
+						<li class="nav-item" role="presentation">
+								<a class="nav-link" href="/kiosk/search.htm">Object Advanced Search</a>
+						</li>
+			<!--#4Dif ((Records in table([Exhibitions])>0) & (gsFunc_HasAccessToTable(->[Exhibitions]))-->
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" href="/kiosk/search_exhibition.htm">Exhibition Search</a>
+				</li>
+			<!--#4DENDIF-->
+			<!--#4Dif ((Records in table([Artist_Maker])>0) & (gsFunc_HasAccessToTable(->[Artist_Maker]))-->
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" href="/kiosk/search_artist.htm">Artist Search</a>
+				</li>
+			<!--#4DENDIF-->
+			<!--#4Dif ((Records in table([Acquisition])>0) & (gsFunc_HasAccessToTable(->[Acquisition]))-->
+				<li class="nav-item" role="presentation">
+					<a class="nav-link" href="/kiosk/search_acquisition.htm">Acquisition Search</a>
+				</li>
+			<!--#4DENDIF-->
+						<li class="nav-item" role="presentation">
+								<a class="nav-link active" href="/kiosk/search_biblio.htm">Bibliography Search</a>
+						</li>
+				</ul>
+
+				<!-- <h1>Bibliography Search</h1> -->
+				<br/>
+
+				<form id="Search" name="Search" action="/4DACTION/HANDLECGI/Search" method="post" class="form-horizontal" style="max-width:900px;">
+						<input type="hidden" name="SearchTable" value="Biblio_Citation" />
+						<input type="hidden" name="display" value="list" />
+						<input type="hidden" name="records" value="10" />
+						<!-- For each new search field, you need to add 2 variables to the form:
+						1) "SearchField#": make sure the # is sequential; set value to the name of the field you want to search.
+						2) "SearchValue#": make sure the # matches the # from SearchField; the user must be able to set the value to the desired search value; a wildcard will be appended before and after the search value
+						-->
+
+						<input type="hidden" name="SearchOp0"    value="contains" />
+						<input type="hidden" name="SearchField0" value="Doc_Title" />
+						<div class="form-group row">
+								<label class="col-sm-3 col-form-label" for="pubtitle">Publication Title</label>
+								<div class="col-sm-8">
+										<input class="form-control" type="text" name="SearchValue0" id="pubtitle" value="" />
+								</div>
+						</div>
+
+						<!--#4DSCRIPT/GetDistinctValues/[Biblio_Citation]publisher/1/1-->
+						<!--#4DIF (Size of array(atGDVValues)>0)-->
+								<input type="hidden" name="SearchOp1"    value="equals" />
+								<input type="hidden" name="SearchField1" value="publisher" />
+								<div class="form-group row">
+										<label class="col-sm-3 col-form-label" for="publisher">Publisher</label>
+										<div class="col-sm-6">
+												<select class="form-control" name="SearchValue1" id="publisher">
+														<option selected="selected" value=""></option>
+														<!--#4DLOOP atGDVValues-->
+																<!--#4Dif (atGDVValues{atGDVValues}#"")-->
+																		<option value="<!--#4DTEXT atGDVValues{atGDVValues}-->">
+																				<!--#4DTEXT atGDVValues{atGDVValues} + " ("+string(alGDVCounts{atGDVValues})+")"-->
+																		</option>
+																<!--#4Dendif-->
+														<!--#4DENDLOOP-->
+												</select>
+										</div>
+								</div>
+						<!--#4DENDIF-->
+
+						<div class="form-group row">
+								<label class="col-sm-3 col-form-label">Search Results Match</label>
+								<div class="col-sm-8">
+										<div class="radio-inline">
+												<input type="radio" name="SearchType" title="SearchType" value="all" />
+												<strong>ALL</strong> provided search terms
+										</div>
+										<div class="radio-inline">
+												<input type="radio" name="SearchType" title="SearchType" value="any" checked />
+												<strong>ANY</strong> provided search terms
+										</div>
+								</div>
+						</div>
+
+						<div class="form-group row">
+								<label class="col-sm-3 col-form-label">Sort Results by</label>
+								<div class="col-sm-3">
+										<select class="form-control" name="sort" title="sort">
+												<option value="7">Doc Title</option>
+												<option value="25">Publisher</option>
+										</select>
+								</div>
+						</div>
+
+						<div class="form-group row">
+								<label class="col-sm-3 col-form-label">&nbsp;</label>
+								<div class="col-sm-3">
+										<button type="submit" class="btn btn-primary" aria-label="Search Collection" name="doSubmit">
+										<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+										Search
+								</button>
+								</div>
+						</div>
+
+				</form>
+
+				%{if(Records)}%
+						<p>
+								<br />
+								<br />
+								<strong>Your current selection of %{Records - Object}% records is:</strong>
+								<br />
+								%{Selection Name Object}%
+						</p>
+				%{end if}%
+		</div>
+		%{Include footer.inc}%
+</body>
+</html>

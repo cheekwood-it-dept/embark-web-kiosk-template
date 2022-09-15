@@ -1,0 +1,171 @@
+<!-- kiosk pages\advancedsearch.htm -->
+%{Include header.inc}%
+	  <script>
+	  <!--
+	  function setField(iField,sValue) {
+		var theValue = eval("document.QuickSearch.setVal"+iField);
+		if(sValue!="Select...") {
+		  theValue.value = sValue;
+		}
+		else {
+		  theValue.value = "";
+		}
+	  }
+
+	  function doSearch() {
+		var numLines = 0;
+		var theValue;
+		var theInput;
+		for (var i = 1; i < 11; i++) {
+		  theValue = eval("document.QuickSearch.setVal"+i+".value");
+		  if(theValue.length>0) {
+			if(i==3) {
+				theValue = theValue + "@";
+			}
+			numLines = numLines + 1;
+			theInput = eval("document.QuickSearch.value"+numLines);
+			theInput.value = theValue;
+			theInput = eval("document.QuickSearch.field"+numLines);
+			theInput.value = i;
+		  }
+		}
+
+		document.QuickSearch.lineCount.value=numLines;
+		for (i = numLines + 1; i < 11; i++) {
+		  theInput = eval("document.QuickSearch.value"+i);
+		  theInput.value = "";
+		}
+
+		document.QuickSearch.submit();
+	  }
+	  //-->
+  </script>
+<div class="embarkItemData" style="display: none;">
+	<span class="title">Advanced Search</span>
+</div>
+
+
+<h1>Advanced Search</h1>
+<p>
+
+	<a href="/QS_5">Basic</a> |
+	Advanced |
+	<a href="/QS_6">Date</a> |
+	<a href="/QS_4">Keywords</a>
+</p>
+
+<p>Use the @ (at) symbol as the wild card when searching in free-text fields. <br /><br />
+ One example: searching for objects made of wood:</p>
+<ul>
+	<li>entering 'wood' in the <strong>Medium &amp; Support</strong> field will find objects where the medium = oil</li>
+	<li>entering '@wood' in the <strong>Medium &amp; Support</strong> field will find objects where the term oil appears anywhere in the medium field</li>
+	<li>entering 'wood@' in the <strong>Medium &amp; Support</strong> field will find objects where the medium field BEGINS WITH the term 'wood'</li>
+</ul>
+
+
+<form action="/collection/4DACTION/HANDLECGI/QSF2?display=por" class="embarkAdvancedSearchForm" method="POST"  name="QuickSearch">
+	<INPUT TYPE="hidden" NAME="whichfield" VALUE="1"><INPUT TYPE="HIDDEN" NAME="lineCount" VALUE="1"><input name="setVal1" type="hidden" value=""><input name="setVal2" type="hidden" value=""><input name="setVal3" type="hidden" value=""><input name="setVal4" type="hidden" value=""><input name="setVal5" type="hidden" value=""><input name="setVal6" type="hidden" value=""><input name="setVal7" type="hidden" value=""><input name="setVal8" type="hidden" value=""><input name="setVal9" type="hidden" value=""><input name="setVal10" type="hidden" value="">
+	<input type="hidden" value="" name="sid"/>
+	<input name="field1" type="hidden" value="1"><input name="value1" type="hidden" value="">
+	<input name="field2" type="hidden" value="2"><input name="value2" type="hidden" value="">
+	<input name="field3" type="hidden" value="3"><input name="value3" type="hidden" value="">
+	<input name="field4" type="hidden" value="4"><input name="value4" type="hidden" value="">
+	<input name="field5" type="hidden" value="5"><input name="value5" type="hidden" value="">
+	<input name="field6" type="hidden" value="6"><input name="value6" type="hidden" value="">
+	<input name="field7" type="hidden" value="7"><input name="value7" type="hidden" value="">
+	<input name="field8" type="hidden" value="8"><input name="value8" type="hidden" value="">
+	<input name="field9" type="hidden" value="9"><input name="value9" type="hidden" value="">
+	<input name="field10" type="hidden" value="10"><input name="value10" type="hidden" value="">
+	<!--4DLoop QuickSearchFields-->
+
+
+ <tr valign="top">
+	<td class="txt" width="400">
+	  <!--4DVar tQSFieldname-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</td>
+
+	<td class="txt">
+	  <!--4DIf (tQSFieldname="Accession Number")-->
+	  <input class="txt" type="text" size="30" onChange="setField(<!--4DVar myCounter-->,this.value);">
+	  <!--4DElse-->
+	  <!--4DIf (tQSFieldname="Media & Support")-->
+			<input class="txt" type="text" size="30" onChange="setField(<!--4DVar myCounter-->,this.value);">
+
+	 <!--4DElse-->
+			  <!--4DIf (tQSFieldname="Display Title")-->
+			  <input class="txt" type="text" size="30" onChange="setField(<!--4DVar myCounter-->,this.value);">
+	 <!--4DElse-->
+			  <!--4DIf (tQSFieldname="Culture-Nationality")-->
+			  <input class="txt" type="text" size="30" onChange="setField(<!--4DVar myCounter-->,this.value);">
+	 <!--4DElse-->
+			  <!--4DIf (tQSFieldname="Period")-->
+			  <input class="txt" type="text" size="30" onChange="setField(<!--4DVar myCounter-->,this.value);">
+	 <!--4DElse-->
+			  <!--4DIf (tQSFieldname="Century")-->
+			  <input class="txt" type="text" size="30" onChange="setField(<!--4DVar myCounter-->,this.value);">
+	 <!--4DElse-->
+			  <!--4DIf (tQSFieldname="Country")-->
+			  <input class="txt" type="text" size="30" onChange="setField(<!--4DVar myCounter-->,this.value);">
+
+		  <!--4DElse-->
+			  <SELECT onChange="setField(<!--4DVar myCounter-->,this.options[this.selectedIndex].value);">
+			  <option value="">Select...
+			  <!--4DLoop QuickSearchValues-->
+				<option value="<!--4DVar pQSValues->{lQSSelValue}-->"><!--4DVar pQSValues->{lQSSelValue}-->
+			  <!--4DEndLoop-->
+			  </select>
+			  <!--4DIf (tQSFieldname="Artist - Sort Name")-->
+				<span class="smalltxt"><br>Type the first letter of an artist's last name to jump to that section of the list</span><br><br>
+			  <!--4DEndIf-->
+		  <!--4DEndIf-->
+		  <!--4DEndIf-->
+	  <!--4DEndIf-->
+	  <!--4DEndIf-->
+	  <!--4DEndIf-->
+	  <!--4DEndIf-->
+	  <!--4DEndIf-->
+	  <!--4DEndIf-->
+	  <!--4DEndIf-->
+	  <!--4DEndIf-->
+
+	</td>
+  </tr>
+  <!--4DEndLoop-->
+  <tr>
+		<td></td>
+	  <td class="txt" align="left"><br><br><input type="button" value="FIND" class="txt" onClick="doSearch();"></input>
+		  <p><input type="checkbox" name="WholeWord" value="1"/>whole word(s) only</p>
+
+	<p><input type="checkbox" name="ImagesOnly" value="1"/>with images only</p>
+
+	<p><input type="radio" name="SearchType" value="all" checked="checked"/>all words
+	<input type="radio" name="SearchType" value="any"/>any words</p>
+
+	<p><input type="radio" name="RefineSearch" value="NewSelection" checked="checked"/>New Selection
+	<input type="radio" name="RefineSearch" value="AddToCurrent"/>Add to Current Selection
+	<input type="radio" name="RefineSearch" value="WithinCurrent"/>Search only Current Selection</p>
+
+	</td>
+  </tr>
+  </table>
+  <input name="RefineSearch" value="NewSelection" type="hidden" class="txt" value="New Selection">
+</form>
+%{if(Records)}%
+	<p>
+		<br/><br/>
+		<b>Your current selection of %{Records - Object}% records is:</b><br/>
+		%{Selection Name Object}%
+	</p>
+%{end if}%
+
+<!--<p><b>Other Search Options:</b><br/>
+<a href="/QS_5">Basic Search</a> |
+Advanced Search |
+<a href="/QS_2">Kiosk Default Search</a> |
+<a href="/QS_6">Date</a> |
+<a href="/QS_4">Keywords</a> |
+<a href="/QS_1">Artist Search</a></p>-->
+
+
+
+%{Include footer.inc}%

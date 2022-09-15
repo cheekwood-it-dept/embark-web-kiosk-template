@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--Biblio_Citation/List.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}% - Publication List</title>
+    %{Include head.inc}%
+    
+</head>
+
+<body>
+    %{Include header.inc}%
+
+    <div class="container"> <!-- title and navigation -->
+        <h1>Browse the Publications</h1>
+        <p class="lead">
+            Click any image below to begin browsing through the publication.
+        </p>
+
+        <div class="row">
+            <div class="col col-sm col-md-5 col-lg-4 col-xl-4 mr-auto">
+                <form id='popup' name='popup' method='post' action='%{Link;Biblio_Citation;info;0;query=Current Selection;records=1}%'>
+                    <select class="form-control" name='page' onchange='document.forms["popup"].submit()'>
+                        <!--#4DEVAL gsFunc_SortRecords (->[Biblio_Citation]Doc_Title;">"; ->[Biblio_Citation]Doc_Date;"<")-->
+                        <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Biblio_Citation]; 1))-->  <!-- loads the first record -->
+                        <!--#4dloop [Biblio_Citation]-->
+                            <option value='<!--#4Dtext Selected Record number([Biblio_Citation])-->' <!--#4Dif (lFirstRec = Selected Record number([Biblio_Citation])) --> selected='selected' <!--#4Dendif-->>
+                                <!--#4Dtext [Biblio_Citation]Doc_Title-->
+                                <!--#4Dif ([Biblio_Citation]Doc_Date#"")-->
+                                    - <!--#4Dtext [Biblio_Citation]Doc_Date-->
+                                <!--#4Dendif-->
+                            </option>
+                        <!--#4dendloop -->
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        %{Include pagenavigation.inc}%
+
+    </div>
+
+    <div style="position: relative;">
+        <div class="container">
+            <a name="main"></a>
+
+            <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Biblio_Citation]; gsFunc_GetCount("First Record")))-->  <!-- loads the first record -->
+            <!--#4DEVAL $i:=gsFunc_GetCount("First Record")-->                          <!-- set temp counter for the loop -->
+
+            <!-- The following will repeat for each record in the page. -->
+            <div class="d-flex flex-wrap align-self-start">
+                <!--#4DLOOP ($i <= gsFunc_GetCount("Last Record"))-->                       <!-- loop based on the temp counter -->
+                    <!--#4DEVAL $i:=$i+1-->                                                 <!-- increment the temp counter -->
+                    <div class="m-4">
+                        <div class="card hoverOutline" style="width:200px; margin-bottom:10px;">
+                            <a class="noColor" href="<!--#4Dtext gsFunc_Link("Biblio_Citation;info;0;records=1;first=Current Record;query=Current Selection")-->&publicationName=<!--#4Dtext [Biblio_Citation]Doc_Title-->">
+                                <div class="card-img-top text-center" style="max-width:200px;max-height:200px;">
+                                    <!--#4Dif (gsFunc_HasImage(->[Biblio_Citation]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Biblio_Citation];"Preview Url")-->"
+                                             height="<!--#4Dvar gsFunc_GetImage (->[Biblio_Citation];"Proportional Height max 200")-->"
+                                             width="<!--#4Dvar gsFunc_GetImage (->[Biblio_Citation];"Proportional Width max 200")-->" alt="Go to publication page for <!--#4Dtext [Biblio_Citation]Doc_Title-->" />
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultPreview.gif" alt="Go to publication page for <!--#4Dtext [Biblio_Citation]Doc_Title-->" />
+                                    <!--#4Dendif-->
+                                </div>
+                                <div class="card-body text-left">
+                                    <h5 class="card-title">
+                                        <!--#4Dtext [Biblio_Citation]Doc_Title-->
+                                    </h5>
+
+                                    <p class="card-text small">
+                                        <!--#4Dif ([Biblio_Citation]Publisher # "")-->
+                                            Type: <!--#4Dtext [Biblio_Citation]Publisher--><br />
+                                        <!--#4Dendif-->
+                                        <!--#4Dtext [Biblio_Citation]Doc_Date-->
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!--#4DEVAL NEXT RECORD([Biblio_Citation])-->   <!-- load the next record -->
+                <!--#4DENDLOOP-->
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        %{Include selectiondescription.inc}%
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

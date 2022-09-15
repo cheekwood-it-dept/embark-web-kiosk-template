@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en">
+<head>
+		<title>%{Include title.inc}%</title>
+		%{Include head.inc}%
+</head>
+<!--Users/Reports/PortfolioProperties.htm-->
+<body>
+		%{Include header.inc}%
+		<div class="container">
+				<p class="lead">
+						Your changes to portfolio <u><strong>%{Portfolio name}%</strong></u> have been saved.
+				</p>
+				<p>
+						<!--#4Dif (PortfolioForUserId=Security_LoggedInUserId)-->
+								<a class="btn btn-outline-primary" href="/userPortfolios">Go to My Portfolios</a>
+						<!--#4Delse-->
+								<a class="btn btn-outline-primary" href="/userManager?action=edit&id=<!--#4Dtext PortfolioForUserId-->">Go to User Details for <!--#4Dtext PortfolioForUserName--></a>
+						<!--#4Dendif-->
+				</p>
+		</div>
+		%{Include footer.inc}%
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--Users/login.htm-->
+<html lang="en">
+
+<head>
+    <title>%{include title.inc}% - Home</title>
+    %{Include head.inc}%
+
+</head>
+
+<body>
+    %{Include header.inc}%
+
+    <div id="head" class="container">
+        <a name="main"></a>
+
+        <h2>
+            Delete User
+            <span class="float-right"><a class="btn btn-outline-primary btn-sm m-1" href="/userManager">Show All Users</a></span>
+        </h2>
+
+        <p class="lead">
+            Delete a user permantently deletes the user and any galleries that they might have created.
+        </p>
+
+        <!--#4Dif (gsFunc_GetInfo("ErrorMessageHTML")#"")-->
+            <div class="alert alert-danger" role="alert">
+                <!--#4Dhtml gsFunc_GetInfo("ErrorMessageHTML")-->
+            </div>
+        <!--#4Dendif-->
+        <!--#4Dif (gsFunc_GetInfo("SuccessMessageHTML")#"")-->
+            <div class="alert alert-success" role="alert">
+                <!--#4Dhtml gsFunc_GetInfo("SuccessMessageHTML")-->
+            </div>
+        <!--#4Dendif-->
+
+        <hr/>
+        <h5>Update User Details</h5>
+        <form action="/userManager" method="post">
+            <input type="hidden" name="id" value="<!--#4Dtext [Agents]_Agent_ID-->">
+            <table class="table table-borderless" style="max-width:700px;" width="100%">
+                <tr>
+                    <td class="align-middle"><label for="name">Username</label></td>
+                    <td><!--#4Dtext [Agents]Name--></td>
+                </tr>
+                <tr>
+                    <td class="align-middle"><label for="email">Email Address</label></td>
+                    <td><!--#4Dtext [Agents]Email_1--></td>
+                </tr>
+                <tr>
+                    <td class="align-middle">Configuration Options</td>
+                    <td>
+                        <!--#4Dif (not([Agents]Inactive))-->
+                            Login Enabled
+                        <!--#4Delse-->
+                            Login Not Enabled
+                        <!--#4Dendif-->
+                    </td>
+                </tr>
+                <!--#4Dif ([Agents]_SuperUser)-->
+                    <tr>
+                        <th class="align-middle">&nbsp;</th>
+                        <td>
+                                Is an Administrator
+                        </td>
+                    </tr>
+                <!--#4Dendif-->
+                <tr>
+                    <th class="align-middle">&nbsp;</th>
+                    <td>
+                        <!--#4Dif ([Agents]_CanWebAccess)-->
+                            Portfolios Sharing Enabled
+                        <!--#4Delse-->
+                            Portfolios Sharing Not Enabled
+                        <!--#4Dendif-->
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan=2>
+                        <button class="btn btn-danger m-1" name="action" value="delete_confirmation">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i> Delete User
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

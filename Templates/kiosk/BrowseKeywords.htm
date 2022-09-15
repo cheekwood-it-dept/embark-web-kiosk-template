@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Kiosk/BrowseKeywords.htm-->
+<html lang="en">
+
+<head>
+    <title>%{include title.inc}% - Browse by Keywords</title>
+    %{Include head.inc}%
+    
+</head>
+
+<body>
+    %{Include header.inc}%
+
+    <div id="head" class="container">
+        <a name="main"></a>
+
+        <h1>Browse the Collections by Keywords</h1>
+
+        <p class="lead">
+            Click any keyword below to browse through their work.
+        </p>
+
+        <p>
+            Click a letter below to jump to the keyword that starts with that letter.
+        </p>
+
+        <!--#4DEVAL $i:=0-->
+        <div role="group" aria-label="Jump to Letter">
+            <!--#4DLOOP ($i<26)) -->
+                <!--#4DEVAL $char:=char(character code("A")+$i)-->
+                <!--#4Dif gsFunc_IsKeywordsStartingWith($char)-->
+                    <a href="#<!--#4DTEXT $char-->">
+                        <button type="button" class="btn btn-sm btn-outline-primary">
+                            <!--#4DTEXT $char-->
+                        </button>
+                    </a>
+                <!--#4Delse-->
+                    <button type="button" class="btn btn-sm btn-outline-secondary" disabled="disabled">
+                        <!--#4DTEXT $char-->
+                    </button>
+                <!--#4Dendif-->
+                <!--#4DEVAL $i:=$i+1-->
+            <!--#4DENDLOOP-->
+            <!--#4Dif gsFunc_IsKeywordsStartingWith("#")-->
+                <a href="#Numbers">
+                    <button type="button" class="btn btn-sm btn-outline-primary">
+                        #s
+                    </button>
+                </a>
+            <!--#4Dendif-->
+            <!--#4Dif gsFunc_IsKeywordsStartingWith("other")-->
+                <a href="#Other">
+                    <button type="button" class="btn btn-sm btn-outline-primary">
+                        Other
+                    </button>
+                </a>
+            <!--#4Dendif-->
+        </div>
+
+        <!--#4DEVAL $i:=0-->
+        <!--#4DLOOP ($i<28)) -->
+            <!--#4Dif ($i=26)-->
+                <!--#4DEVAL $char:="Numbers"-->
+                <!--#4DEVAL gsFunc_SpecialFieldQuery(->[Keywords]StartsWithNumber; "True"))-->
+            <!--#4Delseif ($i=27)-->
+                <!--#4DEVAL $char:="Other"-->
+                <!--#4DEVAL gsFunc_SpecialFieldQuery(->[Keywords]StartsWithOtherChar; "True"))-->
+            <!--#4Delse-->
+                <!--#4DEVAL $char:=char(character code("A")+$i)-->
+                <!--#4DEVAL gsFunc_SpecialFieldQuery(->[Keywords]Word; $char+"@"))-->
+            <!--#4dendif-->
+            <!--#4DEVAL gsFunc_SpecialFieldSubQuery (->[Keywords]Used;"True")-->
+
+
+            <!--#4dif (Records in Selection([Keywords])>0)-->
+                <!--#4DEVAL gsFunc_SortRecords (->[Keywords]Word; ">")-->
+                <br/>
+                <a name="<!--#4Dtext $char-->"></a>
+                <div class="alert alert-secondary" role="subheader" aria-label="Keywords that start with <!--#4Dtext $char-->">
+                    <strong class="display-4"><!--#4Dtext $char--></strong> <span class="text-muted">(<!--#4Dtext (records in selection([Keywords]))--> keywords)</span>
+                    <div class="small float-right">
+                        <a href="#main">Go to top</a>
+                    </div>
+                </div>
+
+                <ul class="ml-5">
+                    <!--#4DLOOP [Keywords] -->
+                        <li>
+                            <a href="/objects-1/thumbnails?records=20&query=keywordPath=<!--#4Dtext [Keywords]_New_Pathnums-->&keyword=<!--#4Dtext [Keywords]Word-->">
+                                <!--#4Dtext [Keywords]Word-->
+                            </a>
+                            <!--#4Dif ([Keywords]Notes#"") & ([Keywords]Notes#"()")-->
+                                <small class="text-muted"><!--#4Dtext [Keywords]Notes--></small>
+                            <!--#4Dendif-->
+                        </li>
+                    <!--#4DENDLOOP-->
+                </ul>
+            <!--#4dendif-->
+
+            <!--#4DEVAL $i:=$i+1-->
+        <!--#4DENDLOOP-->
+
+        <br />
+    </div>
+    %{Include footer.inc}%
+
+</body>
+
+</html>

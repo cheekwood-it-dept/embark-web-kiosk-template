@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Created by: Kay Teel
+Date created: 7/29/2015
+Updated by: Kay Teel
+Date updated: 1/7/2016
+Modified by: Chris Alexander
+Date modified: 2/2/2016
+-->
+
+<modscollection xmlns="http://www.loc.gov/mods/v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+	
+<!--#4DLOOP [Objects_1]-->	
+<mods version="3.5">
+
+    <recordInfo>
+        <recordContentSource authority="marcorg">CSt</recordContentSource>
+        <languageOfCataloging>
+            <languageTerm authority="iso639-2b">eng</languageTerm>
+        </languageOfCataloging>
+		<recordidentifier><!--#4DTEXT [Objects_1]Disp_Access_No--></recordidentifier>
+    </recordInfo>
+	
+    <titleInfo>
+        <title><!--#4DTEXT [Objects_1]Disp_Title--></title> 
+    </titleInfo>
+<!--#4DIF ([Objects_1]Alt_Title#"")-->
+    <titleInfo type="alternative">
+        <title><!--#4DTEXT [Objects_1]Alt_Title--></title>
+    </titleInfo>
+<!--#4DENDIF-->
+<!--#4DSCRIPT/LoadRelatedRecords/Objects_1:Object_Artist--><!--#4DLOOP [Object_Artist]--><!--#4DSCRIPT/LoadRelatedRecords/Object_Artist:Artist_Maker-->	
+    
+	<name <!--#4DIF ([Object_Artist]Role="By (primary)")-->usage="primary"<!--#4DENDIF-->>
+        <!--#4DIF [Artist_Maker]Last_Name#""--><namePart type="family"><!--#4DTEXT [Artist_Maker]Last_Name--></namePart><!--#4DENDIF-->
+        <!--#4DIF [Artist_Maker]First_Name#""--><namePart type="given"><!--#4DTEXT [Artist_Maker]First_Name--></namePart><!--#4DENDIF-->
+        <!--#4DIF [Artist_Maker]Start_Date_Disp#""--><namePart type="date"><!--#4DTEXT [Artist_Maker]Start_Date_Disp--></namePart><!--#4DENDIF-->
+        <!--#4DIF [Artist_Maker]End_Date_Disp#""--><namePart type="date"><!--#4DTEXT [Artist_Maker]End_Date_Disp--></namePart><!--#4DENDIF-->
+        <!--#4DIF [Artist_Maker]Sort_Name#""--><displayForm><!--#4DTEXT [Artist_Maker]Sort_Name--></displayForm><!--#4DENDIF-->
+        <!--#4DIF [Artist_Maker]Artist_School#""--><displayForm><!--#4DTEXT [Artist_Maker]Artist_School--></displayForm><!--#4DENDIF-->
+        <!--#4DIF [Artist_Maker]Birth_Place#""--><description><!--#4DTEXT [Artist_Maker]Birth_Place--></description><!--#4DENDIF-->
+        <!--#4DIF [Artist_Maker]Death_Place#""--><description><!--#4DTEXT [Artist_Maker]Death_Place--></description><!--#4DENDIF-->
+		<!--#4DIF [Object_Artist]Role#""--><role> 
+            <roleTerm type="text"><!--#4DTEXT [Object_Artist]Role--></roleTerm>
+        </role><!--#4DENDIF-->
+    </name> 
+<!--#4DENDLOOP-->
+
+<!--#4DIF ([Objects_1]TwoD=True)--> 
+	<typeOfResource>still image</typeOfResource>
+<!--#4DELSE ([Objects_1]TwoD=False)-->
+    <typeOfResource>three dimensional object</typeOfResource>
+    <!--#4DIF ([Objects_1]Class_System#"")--><genre><!--#4DTEXT [Objects_1]Class_System--></genre><!--#4DENDIF-->
+    <!--#4DIF ([Objects_1]Style#"")--><genre><!--#4DTEXT [Objects_1]Style--></genre><!--#4DENDIF-->
+    <!--#4DIF ([Objects_1]Disp_Obj_Type#"")--><genre><!--#4DTEXT [Objects_1]Disp_Obj_Type--></genre><!--#4DENDIF-->
+<!--#4DENDIF-->
+	
+	<!--#4DIF ([Objects_1]State_1#"")--><note displayLabel="ethnicity"><!--#4DTEXT [Objects_1]State_1--></note><!--#4DENDIF-->
+    <originInfo displayLabel="Creation place/dates">
+        <!--#4DIF ([Objects_1]Creation_Place2#"")--><place supplied="yes">
+            <placeTerm type="text"><!--#4DTEXT [Objects_1]Creation_Place2--></placeTerm>
+        </place><!--#4DENDIF-->
+        <!--#4DIF ([Objects_1]_Disp_Start_Dat#"")--><dateCreated keyDate="yes" point="start"><!--#4DTEXT [Objects_1]_Disp_Start_Dat--></dateCreated><!--#4DENDIF-->
+        <!--#4DIF ([Objects_1]_Disp_End_Date#"")--><dateCreated point="end"><!--#4DTEXT [Objects_1]_Disp_End_Date--></dateCreated><!--#4DENDIF-->
+    </originInfo>
+	     <!--#4DIF ([Objects_1]Creation_Place1#"")--><originInfo displayLabel="Region/continent">
+        <place supplied="yes">
+            <placeTerm type="text"><!--#4DTEXT [Objects_1]Creation_Place1--></placeTerm>
+        </place>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Alt_Date_Type#"")--><originInfo displayLabel="<!--#4DTEXT [Objects_1]Alt_Date_Type-->">
+        <dateCreated><!--#4DTEXT [Objects_1]Alt_Create_Date--></dateCreated>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Century#"")--><originInfo displayLabel="Century">
+        <dateOther><!--#4DTEXT [Objects_1]Century--></dateOther>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Creation_PlaceH#"")--><originInfo displayLabel="Dynasty">
+        <dateOther><!--#4DTEXT [Objects_1]Creation_PlaceH--></dateOther>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Period#"")--><originInfo displayLabel="Period">
+        <dateOther><!--#4DTEXT [Objects_1]Period--></dateOther>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Edition#"")--><originInfo displayLabel="Edition">
+        <edition><!--#4DTEXT [Objects_1]Edition--></edition>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Plate_Num#"")--><originInfo displayLabel="Edition plate number">
+        <edition><!--#4DTEXT [Objects_1]Plate_Num--></edition>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Ed_Reg_Num#"")--><originInfo displayLabel="Edition state">
+        <edition><!--#4DTEXT [Objects_1]Ed_Reg_Num--></edition>
+    </originInfo><!--#4DENDIF-->
+     <!--#4DIF ([Objects_1]Class1#"")--><originInfo displayLabel="Site">
+        <place supplied="yes">
+            <placeTerm type="text"><!--#4DTEXT [Objects_1]Class1--></placeTerm>
+        </place>
+    </originInfo><!--#4DENDIF-->
+	
+    <physicalDescription>
+        <!--#4DIF ([Objects_1]Medium#"")--><form><!--#4DTEXT [Objects_1]Medium--></form><!--#4DENDIF-->
+        <!--#4DIF ([Objects_1]Disp_Dimen#"")--><extent><!--#4DTEXT [Objects_1]Disp_Dimen--></extent><!--#4DENDIF-->
+		<!--#4DIF ([Objects_1]Class_System#"")--><note displayLabel="Object description"><!--#4DTEXT [Objects_1]Class_System--></note><!--#4DENDIF-->
+		<!--#4DIF ([Objects_1]Style#"")--><note displayLabel="Object description"><!--#4DTEXT [Objects_1]Style--></note><!--#4DENDIF-->
+		<!--#4DIF ([Objects_1]Disp_Obj_Type#"")--><note displayLabel="Object description"><!--#4DTEXT [Objects_1]Disp_Obj_Type--></note><!--#4DENDIF-->
+		<!--#4DIF ([Objects_1]Display_Marks#"")--><note displayLabel="Marks"><!--#4DTEXT [Objects_1]Display_Marks--></note><!--#4DENDIF-->
+    </physicalDescription>
+
+    <!--#4DIF ([Objects_1]Dedication#"")--><note displayLabel="Credit line"><!--#4DTEXT [Objects_1]Dedication--></note><!--#4DENDIF-->
+    <!--#4DIF ([Objects_1]Num_Plate_BL_Ca#"")--><note displayLabel="Catalog references"><!--#4DTEXT [Objects_1]Num_Plate_BL_Ca--></note><!--#4DENDIF-->
+	
+    <relatedItem  type="host" displayLabel="Collection">
+        <titleInfo>
+            <title>Iris &amp; B. Gerald Cantor Center for Visual Arts at Stanford University</title>
+        </titleInfo>
+        <typeOfResource collection="yes"/>
+    </relatedItem>
+    
+    <!--#4DIF ([Objects_1]Printers_Proofs#"")--><relatedItem type="host" displayLabel="Publication title">
+        <titleInfo>
+            <title><!--#4DTEXT [Objects_1]Printers_Proofs--></title>
+        </titleInfo>
+        <!--#4DIF ([Objects_1]B_A_T#"")--><genre><!--#4DTEXT [Objects_1]B_A_T--></genre><!--#4DENDIF-->
+    </relatedItem><!--#4DENDIF-->
+    <!--#4DIF ([Objects_1]Series_Title#"")--><relatedItem type="host" displayLabel="Title set">
+        <titleInfo>
+            <title><!--#4DTEXT [Objects_1]Series_Title--></title>
+        </titleInfo>
+    </relatedItem><!--#4DENDIF-->
+	
+    <!--#4DIF ([Objects_1]Disp_Access_No#"")--><identifier type="accession" displayLabel="Accession number"><!--#4DTEXT [Objects_1]Disp_Access_No--></identifier><!--#4DENDIF-->
+    <location>
+        <physicalLocation displayLabel="Repository" valueURI="http://id.loc.gov/authorities/names/n98017977">Iris &amp; B. Gerald Cantor Center for Visual Arts at Stanford University</physicalLocation>
+		<!--#4DSCRIPT/LoadRelatedRecords/Objects_1:Surrogates--><!--#4DLOOP [Surrogates]-->
+		<!--#4DIF ([Surrogates]IsPrimary=True)-->
+		<url access="object in context" usage="primary">http://cantorcollections.stanford.edu<!--#4DTEXT PreviewPath("Surrogates")--></url>
+		<!--#4DENDIF-->
+		<!--#4DENDLOOP-->
+    </location>
+	<accessCondition type="useAndReproduction"><!--#4DIF ([Objects_1]Is_Surrogate=True)-->You do not need to obtain permission to use materials in the public domain.<!--#4DELSE-->Reproduction of images from the database is prohibited by copyright laws and international conventions without the express written permission from the copyright holder. For information on rights and reproductions of works in the Cantor Arts Center collection, visit http://museum.stanford.edu/contactus/rights_reproductions.html.<!--#4DENDIF--></accessCondition>
+</mods>
+<!--#4DENDLOOP--> 
+</modscollection>

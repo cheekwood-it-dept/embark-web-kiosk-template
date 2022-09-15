@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="en"><head>
+	<title>%{Include title.inc}%</title>
+	%{Include head.inc}%
+</head>
+<!--Users/Reports/AddToPortfolio.htm-->
+<body>
+	%{Include header.inc}%
+	<p>&lt;&lt;<a href="javascript:history.go(-1);">Back</a></p>
+
+	<p><b>The following objects have been added to <a href="UEdit%{Portfolio ID}%">%{Portfolio Name}%</a>:</b>
+
+	<ul>
+		%{Start Loop}%
+			<li>%{[Objects_1]Disp_Title}%</li>
+		%{End Loop}%
+	</ul></p>
+
+	<p>&lt;&lt;<a href="javascript:history.go(-1);">Back</a></p>
+	%{Include footer.inc}%
+</body></html>

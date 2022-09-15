@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--Objects-1/Thumbnails.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}%</title>
+    %{Include head.inc}%
+    %{Include scripts.inc}%
+</head>
+
+<body class="clearfix">
+    %{Include FilterBox.html}%
+
+    <div id="main">
+        %{Include nav.inc}%
+		<span onclick="openNav()" id="openFilterBtn" class="sticky-top">&#9776; Open Filter &gt;&gt;</span>
+
+        <div class="container"> <!-- title and navigation -->
+            <!--#4Dif (Records in Selection([Portfolios])=1)-->     <!-- We're in a portfolio -->
+                <h2>
+                    <!--#4Dif (gsFunc_HasImage(->[Portfolios]))-->
+                        <img src="<!--#4Dvar gsFunc_GetImage (->[Portfolios];"Thumbnail Url")-->" 
+                             alt="Cover thumbnail for <!--#4Dtext [Portfolios]Port_Name-->" />
+                    <!--#4Dendif-->
+                    <!--#4Dtext [Portfolios]Port_Name-->
+                </h2>
+                <!--#4Dif ([Portfolios]Notes #"")-->
+                    <p><!--#4Dtext ([Portfolios]Notes)--></p>
+                <!--#4Dendif-->
+            <!--#4Delse-->
+                <div class="pageHeader">
+                    <h1>Browse the Collection</h1>
+                    <h2>%{Parent Record Name;Object Results}%</h2>
+                </div>
+            <!--#4Dendif-->
+
+            <div class="row">
+                <div class="col col-sm col-md-5 col-lg-4 col-xl-4 mr-auto">
+                    &nbsp;
+                </div>
+
+                <div class="col col-sm col-md-4 col-lg-4 col-xl-4"> <!-- display options -->
+                    <div class="display-options" style="display:inline;">
+                        <div claass="navtxt">
+                            <a class="btn btn-primary" disabled="disabled" href="#" aria-label="Go to Tiny Thumbnails view">
+                                <i class="fa fa-th" aria-hidden="true" style="margin-right:1px;"></i><i class="fa fa-th" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div claass="navtxt">
+                            <a class="btn btn-default" href="%{Link;Objects_1;thumbnails;0;first=Current Record;query=Current Selection;records=20}%" aria-label="Go to Thumbnails view">
+                                <i class="fa fa-th" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div claass="navtxt">
+                            <a class="btn btn-default" href="%{Link;Objects_1;portfolio;0;first=Current Record;query=Current Selection;records=12}%" aria-label="Go to Portfolio view">
+                                <i class="fa fa-th-large" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div claass="navtxt">
+                            <a class="btn btn-default" href="%{Link;Objects_1;list;0;first=Current Record;query=Current Selection;records=25}%" aria-label="Stay on list view">
+                                <i class="fa fa-th-list"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            %{Include pagenavigation.inc}%
+        </div>
+
+        <hr/>
+
+        <div style="position: relative;">
+            <div class="float-container">
+                <a name="main"></a>
+
+                <!-- The following will repeat for each record in the page.-->
+                <div class="d-flex flex-wrap align-self-start justify-content-center">
+                    <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Objects_1]; gsFunc_GetCount("First Record")))-->  <!-- loads the first record -->
+                    <!--#4DEVAL $i:=gsFunc_GetCount("First Record")-->                          <!-- set temp counter for the loop -->
+
+                    <!--The following will be repeated for each record in the Object List.-->
+                    <!--#4DLOOP ($i <= gsFunc_GetCount("Last Record"))-->                       <!-- loop based on the temp counter -->
+                        <!--#4DEVAL $i:=$i+1-->                                                 <!-- increment the temp counter -->
+                        <!--#4DEVAL $url:=gsFunc_Link("Objects_1;info;0;first=Current Record;query=Current Selection;records=1")-->
+                        <div class="hoverOutline" style="width:64px; margin:1px;">
+                            <a class="noColor" href="<!--4Dhtml $url-->&objectName=<!--#4Dtext [Objects_1]Disp_Title-->">
+                                <div class="card-img-top text-center" style="max-width:64px; max-height:64px;">
+                                    <!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Thumbnail Url")-->"
+                                            class="rounded"
+                                            height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 64")-->"
+                                            width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 64")-->"
+                                            alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->" />
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultThumbnail.gif"
+                                            alt="Thumbnail for missing image of <!--#4Dtext [Objects_1]Disp_Access_No-->" />
+                                    <!--#4Dendif-->
+                                </div>
+                            </a>
+                        </div>
+                        <!--#4DEVAL NEXT RECORD([Objects_1])-->                                 <!-- load the next record -->
+                    <!--#4DENDLOOP-->
+                </div> <!-- row -->
+
+            </div>
+        </div>
+
+        <div class="container">
+            %{Include selectiondescription.inc}%
+            %{Include view_selection_as.inc}%
+
+            <br>
+            %{Include formaddtoport.inc}%
+            <br>
+            <br>
+
+            %{Include addobjtoportfolio.inc}%
+        </div>
+
+        %{Include footer.inc}%
+    </div>
+</body>
+
+</html>

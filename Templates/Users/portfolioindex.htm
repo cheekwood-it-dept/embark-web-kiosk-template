@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en">
+<head>
+		<title>%{Include title.inc}%</title>
+		%{Include head.inc}%
+		<script type="text/javascript">
+				function areUsure(toURL, portName) {
+						if (confirm('Are you sure you want to delete portfolio ' + portName + '?')) {
+								window.location = toURL;
+						}
+				}
+		</script>
+</head>
+<!--Users/PortfolioIndex.htm-->
+<body>
+		%{Include header.inc}%
+		<div class="container">
+				<h1>My Portfolios</h1>
+
+				<p class="err">%{Message}%</p>
+
+				<div class="list-row">
+						<form action="/4DACTION/HANDLECGI/userPortfolio/CreateNew" method="post">
+								<table width="100%">
+										<tr>
+												<td valign="middle">
+														<input type="text" name="newPorfolioName" class="form-control" placeholder="Name of the new portfolio">
+												</td>
+												<td class="navatxt" align="right" valign="bottom">
+														<button class="btn btn-outline-primary btn-sm mr-3">Create New Portfolio</button>
+												</td>
+										</tr>
+								</table>
+						</form>
+				</div>
+
+				<!-- The following will repeat for each record in the page. -->
+				%{Start Loop}%
+						<div class="list-row">
+								<table width="100%">
+										<tr>
+												<td valign="middle" style="max-width:700px;">
+														%{if(Portfolio Has Objects)}%
+																<a href="%{Link;Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID}%">
+																		%{Portfolio Name}%
+																</a>
+														%{else}%
+																%{Portfolio Name}%
+														%{end if}%
+														<em class="small text-muted">
+																%{Portfolio Size}% record(s).
+																%{if(Can Share)}%
+																		%{if(Shared)}%
+																				<em>Shared</em>
+																		%{end if}%
+																%{end if}%
+														</em>
+														%{if([Portfolio]Notes!="")}%
+																<div class="small text-muted ml-2">
+																		%{Portfolio Notes - encoded}%
+																</div>
+														%{end if}%
+												</td>
+												<td align="right" valign="top">
+														%{if(Portfolio Has Objects)}%
+																<a class="btn btn-outline-primary btn-sm m-1" href="/removePortfolioObjects%{_ID}%">Remove Objects</a>
+																<a class="btn btn-outline-primary btn-sm m-1" href="/sortPortfolioObjects%{_ID}%">Sort Objects</a>
+														%{else}%
+																<button disabled class="btn btn-outline-secondary btn-sm m-1" href="#">Remove Objects</button>
+																<button disabled class="btn btn-outline-secondary btn-sm m-1" href="#">Sort Objects</button>
+														%{end if}%
+														<a class="btn btn-outline-primary btn-sm m-1" href="/updatePortfolioProperties%{_ID}%">Properties</a>
+														<a class="btn btn-outline-primary btn-sm m-1" href="javascript:areUsure('/UDel%{_ID}%?','%{Portfolio Name}%');">Delete</a>
+												</td>
+										</tr>
+								</table>
+						</div>
+				%{End Loop}%
+
+				%{Include formaddtoport.inc}%
+		</div>
+		%{Include footer.inc}%
+</body>
+</html>

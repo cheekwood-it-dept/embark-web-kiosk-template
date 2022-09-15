@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="en">
+<head>
+		<title>%{Include title.inc}%</title>
+		%{Include head.inc}%
+</head>
+<!--Users/PortProperties.htm-->
+
+<body onload="setMenu('myportfolios');" class="clearfix">
+		%{Include header.inc}%
+		<div class="container">
+				<h1>Edit Portfolio Properties</h1>
+				<form action="/savePortfolioProperties%{_ID}%"
+							class="form-horizontal mt-3"
+							id="portProps" name="portProps" method="post">
+						<input type="hidden" name="pid" value="%{_ID}%">
+						<input type="hidden" name="aid" value="%{_ID}%">
+
+						<div class="form-group row">
+								<label class="col-sm-2 col-form-label" for="title">Portfolio name</label>
+								<div class="col-sm-9">
+										<input class="form-control" type="text" size="75" name="name" value="%{Portfolio Name}%" />
+								</div>
+						</div>
+
+						<div class="form-group row">
+								<legend class="col-sm-2 col-form-label pt-0" for="title">Shared?</legend>
+								<div class="col-sm-9">
+										%{if(Can Share)}%
+												%{if(Shared)}%
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" name="shared" type="radio" id="inlineCheckboxNo" value="0">
+															<label class="form-check-label" for="inlineCheckboxNo">No</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input checked="checked" name="shared" class="form-check-input" type="radio" id="inlineCheckboxYes" value="1">
+															<label class="form-check-label" for="inlineCheckboxYes">Yes</label>
+														</div>
+												%{else}%
+														<div class="form-check form-check-inline">
+															<input checked="checked" name="shared" class="form-check-input" type="radio" id="inlineCheckboxNo" value="0">
+															<label class="form-check-label" for="inlineCheckboxNo">No</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input name="shared" class="form-check-input" type="radio" id="inlineCheckboxYes" value="1">
+															<label class="form-check-label" for="inlineCheckboxYes">Yes</label>
+														</div>
+												%{end if}%
+										%{else}%
+												%{if(Shared)}%
+														Shared
+												%{else}%
+														Not shared
+												%{end if}%
+										%{end if}%
+								</div>
+						</div>
+
+						<div class="form-group row">
+								<label class="col-sm-2 col-form-label" for="title">Notes</label>
+								<div class="col-sm-9">
+										<textarea class="form-control" cols="75" rows="10" name="notes">%{Portfolio Notes}%</textarea>
+								</div>
+						</div>
+
+						<div class="form-group row">
+								<label class="col-sm-2 col-form-label" for="title">Private Notes</label>
+								<div class="col-sm-9">
+										<textarea class="form-control" cols="75" rows="10" name="notes2">%{Portfolio Notes 2}%</textarea>
+								</div>
+						</div>
+
+						<div class="form-group row">
+								<label class="col-sm-2 col-form-label">&nbsp;</label>
+								<div class="col-sm-9">
+										<button type="submit" class="btn btn-primary" aria-label="Search Collection" name="doSubmit">
+										Save Changes
+								</button>
+										<!--#4Dif (PortfolioForUserId=Security_LoggedInUserId)-->
+												<a class="btn btn-link" href="/userPortfolios">Cancel</a>
+										<!--#4Delse-->
+												<a class="btn btn-link" href="/userManager?action=edit&id=<!--#4Dtext PortfolioForUserId-->">Cancel</a>
+										<!--#4Dendif-->
+								</div>
+						</div>
+				</form>
+		</div>
+		%{Include footer.inc}%
+</body>
+</html>

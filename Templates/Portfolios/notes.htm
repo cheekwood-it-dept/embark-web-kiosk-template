@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}%</title>
+	%{Include head.inc}%
+</head>
+<!--PortfolioNotes.htm-->
+<body>
+	%{Include header.inc}%
+	<h1><a href="%{Link;Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID}%">%{[Portfolios]Port_Name}%</a></h1>
+	&lt;&nbsp;<span class="smalltxt"><a href="%{Link;Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID}%">browse objects</a></span>
+	<br/><br/>
+
+	%{If(Has Image)}%
+			<img src="%{Thumbnail}%" vspace="15" hspace="15" align="left" alt=""/>
+	%{End If}%
+
+	%{[Portfolios]Notes}%
+	%{Include footer.inc}%
+</body></html>

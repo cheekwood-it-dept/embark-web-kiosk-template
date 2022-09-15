@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--Objects-1/sampleform.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}% - <!--#4Dtext [Objects_1]Disp_Title--></title>
+    %{Include head.inc}%
+    
+</head>
+
+<body>
+    %{Include header.inc}%
+
+    <div class="container">
+        <h2>Submit Feedback</h2>
+
+        <span class="navtxt">&lt;&lt;<a href="javascript:history.go(-1);">Back</a></span>
+
+        <p class="lead">
+            Please fill out the form below to send our curator your comments about this object.
+            Comments are gathered for periodic review; please do not expect an immediate personal response.
+        </p>
+
+        <table cellpadding="0" cellspacing="0" class="mt-5">
+            <tr>
+                <td valign="top" align="middle">
+                    <img src="%{thumbnail}%" width="%{thumbnail width}%" height="%{thumbnail height}%" alt="" /><br>
+                    <strong>%{[Objects_1]Disp_Title}%</strong><br />
+                    <i>%{[Objects_1]Disp_Maker_1}%</i><br />
+                    %{[Objects_1]Disp_Medium}%<br />
+                    %{[Objects_1]Disp_Dimen}%
+                </td>
+
+                <td width="20"> </td>
+
+                <td valign="top" align="left">
+                    <form action="/4DACTION/HANDLECGI/SUBMITFILE" class="form" method="post">
+                        <input type="hidden" name="feedbackType" value="Object" />
+                        <input type="hidden" name="numInputs" value="6" />
+                        <input type="hidden" name="SubmitDone" value="%{Link;Objects_1;info;0;first=Current Record;query=Current Selection;records=1}%" />
+
+                        <input type="hidden" name="label1" value="Accession Number" />
+                        <input type="hidden" name="input1" value="%{[Objects_1]Disp_Access_No}%" />
+
+                        <input type="hidden" name="label2" value="Title" />
+                        <input type="hidden" name="input2" value="%{[Objects_1]Disp_Title}%" />
+
+                        <input type="hidden" name="label3" value="Primary Artist" />
+                        <input type="hidden" name="input3" value="%{[Objects_1]Disp_Maker_1}%" />
+
+                        <div class="p-4" style="border:1px solid darkgray;">
+                            <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="pt-2 pr-2" valign="top" align="right">Your name:</td>
+                                    <td class="pb-4" valign="top" align="left">
+                                        <input type="hidden" name="Label4" value="Name" />
+                                        <input class="form-control" type="text" size="35" name="Input4" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pt-2 pr-2" valign="top" align="right">Email address:</td>
+                                    <td class="pb-4" valign="top" align="left">
+                                        <input type="hidden" name="Label5" value="Email" />
+                                        <input class="form-control" type="text" size="35" name="Input5" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pt-2 pr-2" valign="top" align="right">Feedback:</td>
+                                    <td class="pb-4" valign="top" align="left">
+                                        <input type="hidden" name="Label6" value="Feedback" />
+                                        <textarea class="form-control" name="Input6" cols="25" rows="7"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan=2 valign="top" align="center">
+                                        <input class="btn btn-primary" type="submit" value="Submit my feedback" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

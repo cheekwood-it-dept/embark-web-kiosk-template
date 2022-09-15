@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--Acquisitions/Info.htm-->
+<html lang="en">
+
+<!--#4DEVAL gsFunc_SortRecords (->[Acquisition]Acq_Name; ">")-->
+<!--#4DEVAL (gsFunc_EnsureCurRecordisLoaded (->[Acquisition]))-->  <!-- loads the current record -->
+<head>
+    <title>%{Include title.inc}% - <!--#4Dtext [Acquisition]Acq_Name--></title>
+    %{Include head.inc}%
+    %{Include scripts.inc}%
+</head>
+
+<body class="clearfix">
+    %{Include nav.inc}%
+
+    <div class="container">
+        <h1>
+            <!--#4Dtext [Acquisition]Acq_Name-->
+        </h1>
+
+        <div class="row">
+            <div class="col col-sm col-md-5 col-lg-4 col-xl-4 mr-auto">
+                <form id='popup' name='popup' method='get' action='%{Link;Acquisition;info;0;query=Current Selection;records=1}%'  style="text-align:center;">
+                    <input type='hidden' name='query' id='query' value='%{Current Selection}%' />
+                    <select class="form-control" name='page' id='page' title='page' onchange='document.forms["popup"].submit()'>
+                        <!--#4DEVAL gsFunc_SortRecords (->[Acquisition]Acq_Name; ">")-->
+                        <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Acquisition]; 1))-->  <!-- loads the first record -->
+                        <!--#4dloop [Acquisition]-->
+                            <option value='<!--#4Dtext Selected Record number([Acquisition])-->' <!--#4Dif (lFirstRec = Selected Record number([Acquisition])) --> selected='selected' <!--#4Dendif-->>
+                                <!--#4Dtext [Acquisition]Acq_Name-->
+                            </option>
+                        <!--#4dendloop -->
+                    </select>
+                </form>
+            </div>
+
+            <!--#4DEVAL (gsFunc_EnsureCurRecordisLoaded (->[Acquisition]))-->  <!-- reloads the record -->
+
+            <div class="col col-sm col-md-4 col-lg-4 col-xl-4"> <!-- display options -->
+                <div class="display-options" style="display:inline;">
+                    <div claass="navtxt">
+                        <a class="btn btn-default" href="%{Link;Acquisition;list;0;first=Current Record;query=Current Selection;records=25}%" aria-label="Go to Acquisition List view">
+                            <i class="fa fa-th-list"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        %{Include pagenavigation.inc}%
+    </div>
+
+    <hr/>
+
+    <div class="container">
+        <a name="main"></a>
+
+        <div class="text-right">
+            <a class="btn btn-default" onclick="window.print();return false;" href="#">
+                <i class="fa fa-print"></i> Print this page
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!--#4Dif (gsFunc_HasImage(->[Acquisition]))-->
+                    <a class="highslide" href="<!--#4Dvar gsFunc_GetImage (->[Acquisition];"Image Url")-->" onclick="return hs.expand(this, hs.__.paramGallery);" target="_blank">
+                        <img src="<!--#4Dvar gsFunc_GetImage (->[Acquisition];"Preview Url")-->"
+                             height="<!--#4Dvar gsFunc_GetImage (->[Acquisition];"Proportional Height max 300")-->"
+                             width="<!--#4Dvar gsFunc_GetImage (->[Acquisition];"Proportional Width max 300")-->"
+                             alt="Image of <!--#4Dtext [Acquisition]Acq_Name-->"
+                             style="max-width:300px;max-height:300px;" />
+                        </a>
+                <!--#4Delse-->
+                    <p>
+                        <em>This acquisition does not have an image.</em>
+                    </p>
+                <!--#4Dendif-->
+            </div>
+
+            <div class="col-lg-8 col-md-6 col-sm-12">
+                <strong><!--#4Dtext [Acquisition]acq_type--></strong><br />
+                <!--#4Dtext [Acquisition]acq_status--><br />
+                <!--#4Dif ([Acquisition]acq_date # !0000-00-00!)-->
+                    <!--#4Dtext [Acquisition]acq_date--> <br />
+                <!--#4Dendif-->
+                <!--#4Dif ([Acquisition]user_def_10 # "")-->
+                    <!--#4Dtext [Acquisition]user_def_10--> <br />
+                <!--#4Dendif-->
+                <!--#4Dif ([Acquisition]acquis_price # 0)-->
+                    <!--#4Dtext [Acquisition]acquis_price--> <br />
+                <!--#4Dendif-->
+                <!--#4Dif ([Acquisition]return_meth # "")-->
+                    <!--#4Dtext [Acquisition]return_meth--> <br />
+                <!--#4Dendif-->
+                <!--#4Dif ([Acquisition]Acq_Agen # 0)-->
+                    Acquisition Agent: <!--#4Dtext gsFunc_GetAgentName([Acquisition]Acq_Agen; ->[Agents]Institution)-->
+                <!--#4Dendif-->
+            </div>
+            <!-- data layout table end -->
+        </div>
+
+        <!--#4DEVAL gsFunc_LoadChildRecords (->[Acquisition]; ->[Objects_1])-->
+        <!--#4DEVAL gsFunc_SortRecords (->[Objects_1]Disp_Title; ">")-->
+        <!--#4Dif (Records in Selection([Objects_1]) > 0)-->
+            <br />
+            <br />
+            <div>
+                <div class="lead p-1 border-bottom bg-light mt-4">
+                    Acquisition Objects (<!--#4Dtext (Records in selection([Objects_1]))-->)
+                    <div class="float-right">
+                        <em class="small">
+                            <a href="<!--4Dtext gsFunc_Link("Objects_1;portfolio;0;records=12;query=Acquisition=_ID")-->&sort=9" aria-label="Browse objects linked to this acquisition in a new window">
+                                Browse as a List &nbsp;
+                            </a>
+                        </em>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap align-self-start">
+                    <!--#4DLOOP [Objects_1]-->
+                        <div class="m-2">
+                            <div class="card hoverOutline" style="width:130px; margin-bottom:10px;">
+                                <div class="card-img-top text-center" style="max-width:128px;max-height:128px;">
+                                    <a href="<!--4Dtext gsFunc_Link("Objects_1;info;[Objects_1]_objects_1_id")-->&objectName=<!--#4Dtext [Objects_1]Disp_Title-->">
+                                        <!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+                                            <img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Thumbnail Url")-->"
+                                                 class="rounded"
+                                                 height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 128")-->"
+                                                 width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 128")-->"
+                                                 alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->" />
+                                         <!--#4Delse-->
+                                            <img src="/graphics/DefaultThumbnail.gif"
+                                                 alt="Thumbnail for missing image of <!--#4Dtext [Objects_1]Disp_Tilte-->" />
+                                         <!--#4Dendif-->
+                                    </a>
+                                </div>
+                                <div class="border-top text-center px-2">
+                                    <p class="card-text">
+                                        <a class="noColor" href="<!--4Dtext gsFunc_Link("Objects_1;info;[Objects_1]_objects_1_id")-->&objectName=<!--#4Dtext [Objects_1]Disp_Title-->">
+                                            <!--#4Dtext [Objects_1]Disp_Title-->
+                                        </a>
+                                        <!--#4Dtext [Objects_1]Disp_Access_No-->
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    <!--#4DENDLOOP-->
+                </div>
+            </div>
+        <!--#4Dendif-->
+
+        <!--#4DEVAL gsFunc_LoadChildRecords (->[Acquisition]; ->[Surrogates]) -->
+        <!--#4Dif (Records in selection([Surrogates]) > 0)-->
+            <br />
+            <br />
+            <div>
+                <div class="lead p-1 border-bottom bg-light mt-4">
+                    Acquisition Images (<!--#4Dtext (Records in selection([Surrogates]))-->)
+                </div>
+
+                <div class="d-flex flex-wrap align-self-start">
+                    <!--#4DLOOP [Surrogates]-->
+                        <div class="m-2">
+                            <div class="card hoverOutline" style="width:130px; margin-bottom:10px;">
+                                <div class="text-center">
+								<a class="item highslide" href="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Image Url")-->" onclick="return hs.expand(this, hs.__.paramGallery);">
+                                    <img src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Thumbnail Url")-->" style="max-width:128px;max-height:128px;"
+                                         alt="Additional Image <!--#4Dtext ([Surrogates]View_1)-->" />
+                                </a>
+                                 </div>
+                                 <div class="border-top text-center">
+                                    <!--#4Dif ([Surrogates]View_1#"")-->
+                                        <!--#4Dtext [Surrogates]View_1-->
+                                    <!--#4Delse-->
+                                        <!--#4Dtext [Surrogates]Image_Type-->
+                                    <!--#4Dendif-->
+                                </div>
+                            </div>
+                        </div>
+                    <!--#4DENDLOOP-->
+                </div>
+            </div>
+        <!--#4Dendif-->
+
+        <!--#4DEVAL gsFunc_LoadChildRecords (->[Acquisition]; ->[Artist_Maker]) -->
+        <!--#4Dif (Records in selection([Artist_Maker]) > 0)-->
+            <br />
+            <br />
+            <div id="artist" class="container-fluid">
+                <div class="lead p-1 border-bottom bg-light mt-4">
+                    Artists (<!--#4Dtext (Records in selection([Artist_Maker]))-->)
+                    <div class="float-right">
+                        <em class="small">
+                            <a href="<!--4Dtext gsFunc_Link("Artist_Maker;list;0;records=25;query=[Acquisition]_ID=_ID;sort=2")-->&artistName=<!--#4Dtext [Artist_Maker]Display_Name-->" aria-label="Browse objects linked to this acquisition in a new window">
+                                Browse as a List &nbsp;
+                            </a>
+                        </em>
+                    </div>
+                </div>
+                <ul class="ml-5">
+                    <!--#4DEVAL gsFunc_SortRecords (->[Artist_Maker]Display_Name;">")-->
+                    <!--#4DLOOP [Artist_Maker]-->
+                    <li>
+                        <a href="<!--4Dtext gsFunc_Link("Artist_Maker;info;[Artist_Maker]_Artist_ID")-->&artistName=<!--#4Dtext [Artist_Maker]Display_Name-->">
+                            <!--#4Dtext [Artist_Maker]Display_Name-->
+                        </a>
+                        <!--#4Dif  ([Artist_Maker]Disp_Maker_Life # "") & ([Artist_Maker]Disp_Maker_Life # "()")-->
+                            <small class="text-muted">
+                                <!--#4Dtext [Artist_Maker]Disp_Maker_Life-->
+                            </small>
+                        <!--#4Dendif-->
+                    </li>
+                    <!--#4DENDLOOP-->
+                </ul>
+            </div>
+        <!--#4Dendif-->
+
+        %{Include selectiondescription.inc}%
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

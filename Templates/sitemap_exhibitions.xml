@@ -1,0 +1,13 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+	<!--#4DEVAL gsFunc_AllFilteredRecords (->[Exhibitions];->[Exhibitions]_Exhibition_ID)-->
+	<!--#4DLOOP [Exhibitions]-->
+	<url>
+        <loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/exhibitions/info/<!--#4Dtext [Exhibitions]_Exhibition_ID--></loc>
+        <lastmod><!--#4Dtext gsFunc_DateInIsoformat([Exhibitions]mod_date)--></lastmod>
+        <changefreq>daily</changefreq>
+        <image:image>
+			<image:loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/<!--#4Dtext gsFunc_GetImage (->[Exhibitions];"Image Url")--></image:loc>
+		</image:image>
+	</url>
+	<!--#4DENDLOOP-->
+</urlset>

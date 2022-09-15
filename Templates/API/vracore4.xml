@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?> 
+
+<vra xmlns="http://www.vraweb.org/vracore4.htm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vraweb.org/vracore4.htm http://www.vraweb.org/projects/vracore4/vra-4.0-restricted.xsd">
+
+<info>
+<foundcount><!--#4DTEXT Records in Selection([Objects_1])--></foundcount>
+<criteria><!--#4DTEXT Get_CurrentQueryString--></criteria>
+</info> 
+<!--#4DLOOP [Objects_1]-->
+        <work id="w_<!--#4DTEXT [Objects_1]_Objects_1_ID-->" source="EmbARK" refid="<!--#4DTEXT [Objects_1]_Objects_1_ID-->">
+			<display><!--#4DTEXT [Objects_1]Disp_Maker_1--></display>
+			<notes></notes>
+			<!--#4DSCRIPT/LoadRelatedRecords/Objects_1:Object_Artist--><!--#4DLOOP [Object_Artist]--><!--#4DSCRIPT/LoadRelatedRecords/Object_Artist:Artist_Maker-->
+			<agentSet>   
+				<name vocab="ULAN" refid="<!--#4DTEXT [Artist_Maker]artist_code-->" type="personal"><!--#4DTEXT [Artist_Maker]Sort_Name--></name>
+                <role><!--#4DTEXT [Object_Artist]Role--></role>
+                <culture><!--#4DTEXT [Artist_Maker]Nat_Culture_L2--></culture>    
+                <dates type="life">
+					<earliestDate><!--#4DIF ([Artist_Maker]Start_Date_Disp#"")--><!--#4DTEXT [Artist_Maker]Start_Date_Disp--><!--#4DENDIF--></earliestDate>
+					<latestDate><!--#4DIF ([Artist_Maker]End_Date_Disp#"")--><!--#4DTEXT [Artist_Maker]End_Date_Disp--><!--#4DENDIF--></latestDate>
+				</dates> 
+                <gender><!--#4DTEXT [Artist_Maker]Gender--></gender>
+				<attribution><!--#4DTEXT [Object_Artist]Attribution--></attribution>
+			</agentSet><!--#4DENDLOOP-->
+			<worktypeSet>		
+				<worktype><!--#4DTEXT [Objects_1]Disp_Obj_Type--></worktype>   
+			</worktypeSet>     
+			<titleSet>  
+				<!--#4DIF ([Objects_1]Disp_Title#"")--><title type="display"><!--#4DTEXT [Objects_1]Disp_Title--></title><!--#4DENDIF-->
+				<!--#4DIF ([Objects_1]Obj_Name#"")--><title type="Object Name"><!--#4DTEXT [Objects_1]Obj_Name--></title><!--#4DENDIF-->
+				<!--#4DIF ([Objects_1]Obj_Title#"")--><title type="Full"><!--#4DTEXT [Objects_1]Obj_Title--></title><!--#4DENDIF-->
+				<!--#4DIF ([Objects_1]Alt_Title#"")--><title type="Alternate"><!--#4DTEXT [Objects_1]Alt_Title--></title><!--#4DENDIF-->
+				<!--#4DIF ([Objects_1]Series_Title#"")--><title type="series"><!--#4DTEXT [Objects_1]Series_Title--></title><!--#4DENDIF-->
+            </titleSet>
+			<measurementsSet>
+				<display><!--#4DTEXT [Objects_1]Disp_Dimen--></display>    
+                <measurements value="<!--#4DTEXT [Objects_1]Disp_Height-->" unit="in" type="height">.</measurements>
+                <measurements value="<!--#4DTEXT [Objects_1]Disp_Width-->" unit="in" type="width">.</measurements>
+                <measurements value="<!--#4DTEXT [Objects_1]Disp_Depth-->" unit="in" type="depth">.</measurements>
+			</measurementsSet>
+			<materialSet>
+				<display><!--#4DTEXT [Objects_1]Medium--></display> 
+			</materialSet>     
+			<stylePeriodSet> 
+                <display><!--#4DTEXT [Objects_1]Style--></display>
+				<display><!--#4DTEXT [Objects_1]Creation_PlaceH--></display>
+			</stylePeriodSet> 
+			<dateSet>
+				<display><!--#4DTEXT [Objects_1]Disp_Create_DT--></display>    
+                <earliestDate><!--#4DTEXT [Objects_1]_Disp_Start_Dat--></earliestDate>    
+                <latestDate><!--#4DTEXT [Objects_1]_Disp_End_Date--></latestDate> 
+			</dateSet>
+            <locationSet>               
+				<display><!--#4DIF ([Objects_1]Class1#"")--><!--#4DTEXT [Objects_1]Class1--><!--#4DENDIF--><!--#4DIF ([Objects_1]Class_System#"")-->, <!--#4DTEXT [Objects_1]Class_System--><!--#4DENDIF--></display>
+            </locationSet>     
+			<worktypeSet>
+                <worktype><!--#4DTEXT [Objects_1]Disp_Obj_Type--></worktype>  
+			</worktypeSet>
+			<rightsSet>  
+				<display><!--#4DTEXT Get_AgentNameById("[Objects_1]CopyrightHolder")--></display>     
+			</rightsSet>
+			<locationSet>
+				<location type="repository"><display><!--#4DTEXT <>vtInstitution--></display></location>
+				<refid type="accession"><!--#4DIF ([Objects_1]Disp_Access_No#"")-->xxx<!--#4DTEXT [Objects_1]Disp_Access_No--><!--#4DELSE--> <!--#4DTEXT [Objects_1]Temp_ID-->robb<!--#4DENDIF--></refid>    
+			</locationSet>
+		</work>
+ <!--#4DSCRIPT/LoadRelatedRecords/Objects_1:Surrogates--><!--#4DLOOP [Surrogates]-->
+		<image id="i_<!--#4DTEXT [Surrogates]_Surrogate_ID-->" source="EmbARK" refid="<!--#4DTEXT [Surrogates]_Surrogate_ID-->">
+            <refid><!--#4DTEXT [Surrogates]ID_Num--></refid>
+			<relationSet><relation refid="<!--#4DTEXT [Objects_1]_Objects_1_ID-->" source="EmbARK" type="imageOf"/></relationSet>
+			<source>http://webkiosk.gallerysystems.com<!--#4DTEXT ImagePath("Surrogates")--></source>
+		</image><!--#4DENDLOOP-->
+<!--#4DENDLOOP--> 
+</vra>

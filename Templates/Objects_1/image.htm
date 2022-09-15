@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}%</title>
+	<link rel="stylesheet" href="/assets/zoom.css" />
+</head>
+<!--FullView/object.htm-->
+<body>
+	<div id="zoom" class="zoomMedia"<!--#4dif (Num([Objects_1]Disp_Create_DT) <= 1923)--> data-zoom-path="%{Zoom;}%"<!--#4dendif-->>
+		<!--#4dif (Num([Objects_1]Disp_Create_DT) <= 1923)--><a href="<!--#4dvar gsFunc_GetImage (->[Objects_1];"Image Url")-->"><!--#4dendif-->
+			<img class="zoomMediaContent" src="<!--#4dvar gsFunc_GetImage (->[Objects_1];"Preview Url")-->" alt="%{[Objects_1]Disp_Title}%" />
+		<!--#4dif (Num([Objects_1]Disp_Create_DT) <= 1923)--></a><!--#4dendif-->
+	</div>
+	<!--
+	<script src="/assets/scripts/config/zoom.js"></script>
+	<script src="/assets/bower_components/requirejs/require.js"></script>
+	<script src="/assets/scripts/zoom.js"></script>
+	-->
+	<script src="/assets/zoom.js"></script>
+</body></html>

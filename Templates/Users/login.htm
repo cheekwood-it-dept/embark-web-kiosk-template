@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en">
+<head>
+		<title>%{include title.inc}% - Home</title>
+		%{Include head.inc}%
+		<script type="text/javascript">
+				function submitLogin() {
+						var today = new Date();
+						var expdate = new Date();
+
+						if (document.logForm.rememberMe.checked == true) {
+								// Store a cookie that remembers the username.
+
+								// By default, remember the username for a year.
+								expdate.setTime(today.getTime() + (24 * 60 * 60 * 1000 * 365));
+
+								document.cookie = "username=" + escape(document.logForm.username.value) +
+										"; expires=" + expdate.toGMTString();
+						} else {
+								// If the cookie exists, erase it.
+								expdate.setTime(today.getTime() - 3600000 * 24);
+								document.cookie = "username=;expires=" + expdate.toGMTString;
+						}
+						return true;
+				}
+
+				function setUsername() {
+						var index = document.cookie.indexOf("username=");
+						if (index == -1) {
+								document.logForm.username.focus();
+								document.logForm.rememberMe.checked = false;
+								return null;
+						}
+
+						// Set the index to the start of the username.
+						index = document.cookie.indexOf("=", index) + 1;
+
+						// Find the end of the username.
+						var endstr = document.cookie.indexOf(";", index);
+						if (endstr == -1) endstr = document.cookie.length;
+
+						document.logForm.username.value = unescape(document.cookie.substring(index, endstr));
+						document.logForm.rememberMe.checked = true;
+						document.logForm.password.focus();
+				}
+		</script>
+</head>
+<!--Users/login.htm-->
+<body>
+		%{Include header.inc}%
+		<div id="head" class="container">
+				<a name="main"></a>
+
+				<h1>Welcome to the User Module</h1>
+
+				<p class="lead">
+						You can use this section of the web site to build your own portfolios of images.
+				</p>
+
+				<p>
+						If you do not yet have logon privileges, please email your Web Kiosk <a href="mailto:">administrator</a>.
+				</p>
+
+				<div class="well" style="margin:50px 50px;">
+						<p style="margin-bottom:20px;">
+								<strong>Please enter your username and password below.</strong>
+						</p>
+
+						<form id="logForm" name="logForm" action="/4DACTION/HandleCGI/User"
+										method="post" onsubmit="submitLogin();"
+										style="max-width:600px;" class="form-horizontal">
+								<div class="form-group">
+										<label for="userNameInput">Username</label>
+										<input type="text" class="form-control" id="userNameInput"
+														name="username" placeholder="Username"
+														value="<!--#4Dtext WEB_t_UserName-->">
+								</div>
+								<div class="form-group">
+										<label for="userPassword">Password</label>
+										<input type="password" class="form-control" id="userPassword"
+														name="password" placeholder="Password" value="">
+								</div>
+								<button type="submit" value="Log On" class="btn btn-primary">Log On</button>
+								<div class="form-group form-check form-check-inline" style="margin-left:30px;">
+										<input type="checkbox" class="form-check-input" <!--#4Dtext WEB_t_rememberMeChecked-->
+														name="rememberMe" id="rememberMe" value="Yes">
+										<label class="form-check-label" for="rememberMe">Remember me</label>
+								</div>
+								<!--#4Dif (SubString("{Error message}";1;4) # "{Err")--> <!-- little trick to test to see if the var has been replaced-->
+										<div class="alert alert-danger" role="alert" style="margin-top:10px;">
+												<strong><!--{Error message}--></strong>
+										</div>
+								<!--#4Dendif-->
+								<script>
+										if (document.getElementById("userNameInput").value == "") {
+												document.getElementById("userNameInput").focus();
+										} else {
+												document.getElementById("userPassword").focus();
+										}
+								</script>
+						</form>
+				</div>
+		</div>
+		%{Include footer.inc}%
+</body>
+</html>

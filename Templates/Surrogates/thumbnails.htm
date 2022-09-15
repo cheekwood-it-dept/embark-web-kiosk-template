@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Surrogates/Thumbnails.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}%</title>
+    %{Include head.inc}%
+    
+</head>
+
+<body>
+    %{Include header.inc}%
+
+    <div class="container"> <!-- title and navigation -->
+        
+            <div class="pageHeader">
+                <h1>Additional Images</h1>
+                <h2>%{Parent Record Name;Image Results}%</h2>
+            </div>
+
+ <a href="%{Link;Objects_1;info;_ID;records=1}%" onmouseover="self.status = 'Display Object Description';return true" onmouseout="self.status = '';return true" title="Display Object Description">Return to Object</a>
+
+
+        %{Include pagenavigation.inc}%
+    </div>
+
+    <hr/>
+
+    <div style="position: relative;">
+
+        <div class="container">
+            <a name="main"></a>
+
+            <!-- The following will repeat for each record in the page.-->
+            <div class="d-flex flex-wrap align-self-start">
+                <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Surrogates]; gsFunc_GetCount("First Record")))-->  <!-- loads the first record -->
+                <!--#4DEVAL $i:=gsFunc_GetCount("First Record")-->                          <!-- set temp counter for the loop -->
+
+                <!--The following will be repeated for each record in the Object List.-->
+                <!--#4DLOOP ($i <= gsFunc_GetCount("Last Record"))-->                       <!-- loop based on the temp counter -->
+                    <!--#4DEVAL $i:=$i+1-->                                                 <!-- increment the temp counter -->
+                    <div class="m-4">
+                        <div class="card hoverOutline" style="width:128px; margin-bottom:10px;">
+                            <div class="card-img-top text-center" style="max-width:128px;max-height:128px;">
+                                <a href="<!--4Dtext gsFunc_Link("Surrogates;detail;0;first=Current Record;query=Current Selection;records=1")-->">
+                                    <!--#4Dif (gsFunc_HasImage(->[Surrogates]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Thumbnail Url")-->"
+                                             class="rounded"
+                                             height="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Proportional Height max 128")-->"
+                                             width="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Proportional Width max 128")-->"
+                                             alt="Image of <!--#4Dtext [Surrogates]View_1-->" />
+                                     <!--#4Delse-->
+                                        <img src="/graphics/DefaultThumbnail.gif"
+                                             alt="Thumbnail for missing image of <!--#4Dtext [Surrogates]View_1-->" />
+                                     <!--#4Dendif-->
+                                </a>
+                            </div>
+                            <div class="border-top text-center px-2">
+                                <p class="card-text mb-1">
+                                    <a class="noColor" href="<!--4Dtext gsFunc_Link("Surrogates;detail;0;first=Current Record;query=Current Selection;records=1")-->">
+                                        <!--#4Dtext [Surrogates]View_1-->
+                                    </a>
+                                </p>
+
+                                <!--#4Dif gsFunc_IsLoggedIn-->
+                                    <div class="text-center m-0 mb-1 p-0">
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                data-toggle="modal"
+                                                data-target="#exampleModalCenter"
+                                                data-object-id="<!--#4Dtext [Objects_1]_Objects_1_ID-->"
+                                                data-object-name="<!--#4Dtext [Objects_1]Disp_Title-->">
+                                          Add to Portfolio
+                                      </button>
+                                  </div>
+                                <!--#4Dendif-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--#4DEVAL NEXT RECORD([Surrogates])-->                                 <!-- load the next record -->
+                <!--#4DENDLOOP-->
+            </div> <!-- row -->
+
+        </div>
+    </div>
+
+    <div class="container">
+        %{Include selectiondescription.inc}%
+
+        <br>
+        <br>
+
+        %{Include addobjtoportfolio.inc}%
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

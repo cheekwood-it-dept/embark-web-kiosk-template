@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="en">
+<head>
+		<title>%{Include title.inc}%</title>
+		%{Include head.inc}%
+</head>
+<!--Users/Portfolio.htm-->
+<body>
+		%{Include header.inc}%
+	<div class="container">
+				<h1>
+						<!--#4Dtext [Portfolios]Port_Name-->
+						<em class="h5 text-muted">
+						 (<!--#4Dtext [Portfolios]PortSize--> Records)
+						</em>
+				</h1>
+				<!--#4DIF ([Portfolios]Notes #"")-->
+						<p class=small>
+								<!--#4Dtext [Portfolios]Notes-->
+						</p>
+				<!--#4Dendif-->
+
+				<hr/>
+				<!--#4Dif (gsFunc_GetInfo("ErrorMessageHTML")#"")-->
+						<div class="alert alert-danger" role="alert">
+								<!--#4Dhtml gsFunc_GetInfo("ErrorMessageHTML")-->
+						</div>
+				<!--#4Dendif-->
+
+				<p class="lead">
+						Clicking on the "Remove" button will permanently removed the object from the portfolio.
+				</p>
+
+				<form id="removeObj" action="/removePortfolioOneObject" name="removeObj">
+						<input type="hidden" name="port" value="<!--#4Dtext [Portfolios]_Port_ID-->" />
+						<input type="hidden" name="obj" value="" />
+						<input type="hidden" name="page" value="1" />
+
+						<table class="table table-hover">
+								<!--#4Dloop [Objects_1]-->
+										<tr>
+												<td width=120 align=center>
+														<button class="btn btn-danger btn-sm" onclick="removeObj.obj.value='<!--#4Dtext [Objects_1]_Objects_1_ID-->';removeObj.submit();">
+																<i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+														</button>
+												</td>
+												<td width=80 align=center>
+														<a href="/objects-1/info/<!--#4Dtext [Objects_1]_Objects_1_ID-->"
+																aria-label="Open description page for <!--#4Dtext [Objects_1]Disp_Title-->"
+																title="Open object description">
+																<!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+																		<img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Preview Url")-->"
+																				 height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 64")-->"
+																				 width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 64")-->"
+																				 alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->" />
+																<!--#4Delse-->
+																		<img src="/graphics/DefaultThumbnail.gif"
+																				 alt="Thumbnail for missing image of <!--#4Dtext [Objects_1]Disp_Access_No-->" />
+																<!--#4Dendif-->
+														</a>
+												</td>
+												<td>
+														<div>
+																<span class="h5"><!--#4Dtext ([Objects_1]Disp_Title)--></span>
+																<!--#4Dif ([Objects_1]Disp_Maker_1#"")-->
+																		<small class="text=muted">by <!--#4Dtext [Objects_1]Disp_Maker_1--></small>
+																<!--#4Dendif-->
+														</div>
+														<!--#4Dif ([Objects_1]Disp_Dimen#"")-->
+																<div class="font-weight-light"><!--#4Dtext ([Objects_1]Disp_Dimen--></div>
+														<!--#4Dendif-->
+														<!--#4Dif ([Objects_1]Disp_Medium#"")-->
+																<div class="font-weight-light"><!--#4Dtext ([Objects_1]Disp_Medium--></div>
+														<!--#4Dendif-->
+														<!--#4Dif ([Objects_1]Display2#"")-->
+																<div class="font-weight-light"><!--#4Dtext ([Objects_1]Display2--></div>
+														<!--#4Dendif-->
+												</td>
+										</tr>
+								<!--#4Dendloop-->
+						</table>
+
+				</form>
+
+		</div>
+		%{Include footer.inc}%
+</body>
+</html>

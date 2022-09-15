@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}%</title>
+	%{Include head.inc}%
+</head>
+<!--IndexTreeMessage.htm-->
+<body>
+	%{Include header.inc}%
+	<h1><a href="%{Link;Index Tree;tree;[Index Tree]Parent}%">%{Branch title}%</a></h1>
+	<span class="smalltxt">&lt;&nbsp;<a href="%{Link;Index Tree;tree;[Index Tree]Parent}%">up a level</a></span>
+
+	<br/><br/>
+
+	%{If(Has Image)}%
+		<img src="%{Thumbnail}%" align="left" hspace="20" vspace="20" alt=""/>
+	%{End If}%
+
+	%{Message}%
+	%{Include footer.inc}%
+</body></html>

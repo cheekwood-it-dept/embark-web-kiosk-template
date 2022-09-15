@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en" class="page-details">
+<head>
+	<title>%{Include title.inc}% %{If([Objects_1]Disp_Title != "")}%%{[Objects_1]Disp_Title}%%{end if}%</title>
+	%{if(Has Image)}%
+	<meta property="og:image" content="/media/%{preview}%" />
+	%{end if}%
+	<meta property="og:title" content="%{If([Objects_1]Obj_Title != "")}%%{[Objects_1]Obj_Title}%%{else}%%{[Objects_1]Disp_Title}%%{end if}%" />
+	%{Include head.inc}%
+</head>
+<!--ObjectInfo.htm-->
+<body>
+	%{Include header.inc}%
+	<!-- <a href="{Custom;zoomobject5;Current}">{Custom;zoomobject5;Current}</a> -->
+	<div class="objectInfo">
+<!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Surrogates])-->
+<!--#4Dif (Records in Selection([Surrogates]) > 0)-->
+		<div class="objectInfoMedia" data-surrogates="true">
+			<div class="detailMediaI">
+<!--4DELSE-->
+		<div class="objectInfoMedia">
+<!--4DENDIF-->
+				<iframe class="objectInfoMediaContent zoomMedia" name="zoomMedia"%{If(Has Image)}% src="%{Full View}%"%{End If}%></iframe>
+<!--#4Dif (Records in Selection([Surrogates]) > 0)-->
+				<div class="objectInfoOtherMedias">
+					<h3 class="sro">Media</h3>
+					<div class="objectInfoOtherMediasList">
+						<!-- can't figure out how to sort in 4D, eg `Order by [Surrogates]_ID` -->
+						<!--#4DLOOP [Surrogates]-->
+						<!-- AND isn't working, so lets nest ifs -->
+	<!--#4DIF ([Surrogates]Image_Type#"audio")--><!--#4dif gsFunc_GetImage (->[Surrogates];"Thumbnail Url")#"/graphics/blank.gif"-->
+						<a class="objectInfoOtherMedia zoomMediaOtherAction" href="<!--#4Dvar gsFunc_Link("Surrogates;image;[Surrogates]_ID")-->" target="zoomMedia" data-full-image="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Image Url")-->"<!--#4dIf ([Surrogates]Photo_Credit#"")--> data-photo-credit="<!--#4dtext ([Surrogates]Photo_Credit)-->"<!--#4dEndIf}-->><img class="objectInfoOtherMediaImage" src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Thumbnail Url")-->" alt="<!--#4Dtext ([Surrogates]View_1)-->"<!--#4dIf ([Surrogates]Photo_Credit#"")--> title="<!--#4dtext ([Surrogates]Photo_Credit)-->"<!--#4dEndIf}--> /></a>
+					<!--#4Dendif--><!--#4Dendif-->
+					<!--#4Dendloop-->
+					</div>
+				</div>
+			</div>
+<!--4DENDIF-->
+		</div>
+		<div class="objectInfoMain">
+			<div class="objectInfoBasicSet">
+				<div class="objectInfoHeading">
+					<h1 class="objectInfoName">
+						%{If([Objects_1]Disp_Title != "")}%%{[Objects_1]Disp_Title}%%{end if}%
+					</h1>
+					%{if([Objects_1]Disp_Create_DT!="")}%<div>%{[Objects_1]Disp_Create_DT}%</div>%{end if}%
+					%{If([Objects_1]Disp_Medium!="")}%<div class="objectInfoMedium">%{[Objects_1]Disp_Medium}%</div>%{End If}%
+				</div>
+<!--#4DEVAL gsFunc_LoadChildRecords (->[Objects_1]; ->[Artist_Maker]) -->
+<!--#4Dif (Records in selection([Artist_Maker])>0)-->
+	<!--#4DLOOP [Object_Artist]-->
+		<!--#4DEVAL gsFunc_SpecialFieldQuery (->[Artist_Maker]_Artist_ID; String([Object_Artist]_Artist_ID))-->
+		<!--#4dif ([Artist_Maker]Display_Name#"Unknown")-->
+				<div class="objectInfoBasicSet">
+					<div class="objectInfoArtists">
+						<div class="objectInfoArtist">
+							<span class="objectInfoArtistName"><a href="/artist-maker/info/<!--#4Dtext [Object_Artist]_Artist_ID-->"><!--#4Dtext [Artist_Maker]Full_Name-->%{[Artist_Maker]Disp_Maker_Life}% </a></span>
+							<!--#4Dif (([Artist_Maker]Disp_Maker_Life # "") & ([Artist_Maker]Disp_Maker_Life # "x")))--><span><!--#4Dtext [Artist_Maker]Disp_Maker_Life--></span><!--#4Dendif-->
+							<!--#4Dif (([Object_Artist]Place # "") & ([Object_Artist]Place # "x")))--><span><!--#4Dtext [Object_Artist]Place--></span><!--#4Dendif-->
+						</div>
+					</div>
+				</div>
+		<!--#4Dendif-->
+	<!--#4Dendloop-->
+<!--#4Dendif-->
+				<div class="objectInfoBasicSet">
+				
+					%{if([Objects_1]Disp_Dimen!="")}%
+					<div class="dimensionsBoxContainer" data-depth="%{[Objects_1]Disp_Depth}%" data-height="%{[Objects_1]Disp_Height}%" data-width="%{[Objects_1]Disp_Width}%">
+						<div class="objectInfoDimensions dimensionBoxText">
+							%{if([Objects_1]Dimen_Extent!="")}%%{[Objects_1]Dimen_Extent}%:%{end if}%
+							%{[Objects_1]Disp_Dimen}%
+						</div>
+					</div>
+					%{end if}%
+					%{if ([Objects_1]Dedication!="")}%<div>%{[Objects_1]Dedication}%</div>%{end if}%
+					%{if ([Objects_1]Disp_Access_No!="")}%<div class="objectInfoAccession">%{[Objects_1]Disp_Access_No}%</div>%{end if}%
+				</div>
+				<!--#4dif ([Objects_1]Display2#"")-->
+				<div class="objectInfoBasicSet">
+					<!--#4dtext [Objects_1]Display2-->
+				</div>
+				<!--#4dendif-->
+				<!--#4dif ([Objects_1]CurrentLocation = "Museum@")-->
+				<div class="objectInfoBasicSet">
+					<span class="onView">On View</span>
+				</div>
+				<!--#4dendif-->
+			<div class="objectInfoPageNav">%{Include pagenavigation.inc}%</div>
+		</div>
+	</div>
+	<div class="objectInfoFooter">
+		<p>Cheekwood creates, organizes, and disseminates a broad range of digital images and data that document the rich history of the museum. Images of artworks in the Museum&#8217;s collection fall into two categories:</p>
+		<ol>
+			<li>images of works the museum believes to be in the public domain, or those to which the museum waives any copyright it might have. Public- domain works from the The Cheekwood Collections can be downloaded, shared, and remixed without restriction.</li>
+			<li>images of works the museum knows to be under copyright or other restrictions. To request images for artworks under copyright or other restrictions, or to request an image not available on our website, please contact the museum at <a href="mailto:moa@cheekwood.org">moa@cheekwood.org</a>.</li>
+			<!--#4dif (Num([Objects_1]Disp_Create_DT) > 1923)-->
+			<li>Due to rights restrictions, any photograph of an object or work that was created after 1923 cannot be enlarged, viewed at full screen, or downloaded</li>
+			<!--#4dendif-->
+		</ol>
+	</div>
+	%{Include footer.inc}%
+</body></html>

@@ -1,0 +1,13 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+	<!--#4DEVAL gsFunc_AllFilteredRecords (->[Artist_Maker];->[Artist_Maker]_Artist_ID)-->
+	<!--#4DLOOP [Artist_Maker]-->
+	<url>
+        <loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/artist-maker/info/<!--#4Dtext [Artist_Maker]_Artist_ID--></loc>
+        <lastmod><!--#4Dtext gsFunc_DateInIsoformat([Artist_Maker]mod_date)--></lastmod>
+        <changefreq>daily</changefreq>
+        <image:image>
+			<image:loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/<!--#4Dtext gsFunc_GetImage (->[Artist_Maker];"Image Url")--></image:loc>
+		</image:image>
+	</url>
+	<!--#4DENDLOOP-->
+</urlset>

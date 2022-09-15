@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}% Quick Search</title>
+	%{Include head.inc}%
+</head>
+<!--Search/Object/Contains.htm-->
+<body>
+	%{Include header.inc}%
+	<h1>Quick Search</h1>
+	<form id="Contains" name="Contains" action="/4DACTION/HANDLECGI/CTN3?display=por" method="post" >
+		<p>Use the Quick Search box below to create a search within multiple fields. Enter one or more words in the box and click <b>Find</b>. You can search for an artwork by <b>Artist's Name</b> - first or last, in full or just the first few letters, <b>Title</b>, <b>Medium</b>, <b>Object Type</b>, <b>Century</b>, <b>Country</b>, <b>Theme</b> and <b>Accession No.</b></p>
+		<p>SORTING TIP: When searching for a series, enter the series title and click <b>Find</b>. Your results will be displayed in the <b>thumbnail</b> view, you can also view your results in a text list view by     selecting <b>text list</b> from the view options on the top left of the Objects Results page. While in text list view you can sort the results by <b>Accession No.</b>, this will let you see the order that     the works appear in the series. This sort order will remain if you choose to view the results in the <b>thumnbail</b> or <b>description</b> view.</p>
+
+		<fieldset class="radioFields">
+			<legend>Search Type</legend>
+			<label class="formField radioField" for="type">
+				<input class="formControl" type="radio" name="SearchType" value="all" checked="checked" id="type" />
+				<span class="formLabel">all words</span>
+			</label>
+			<label class="formField radioField" for="any">
+				<input class="formControl" type="radio" name="SearchType" value="any" id="any" />
+				<span class="formLabel">any words</span>
+			</label>
+		</fieldset>
+		<fieldset class="radioFields">
+			<legend>Refine Search</legend>
+			<label class="formField radioField" for="new">
+				<input class="formControl" type="radio" name="RefineSearch" value="NewSelection" checked="checked" id="new" />
+				<span class="formLabel">New Selection</span>
+			</label>
+			<label class="formField radioField" for="within">
+				<input class="formControl" type="radio" name="RefineSearch" value="AddToCurrent" id="within" />
+				<span class="formLabel">Add to Current Selection</span>
+			</label>
+			<label class="formField radioField">
+				<input class="formControl" type="radio" name="RefineSearch" value="WithinCurrent" />
+				<span class="formLabel">Search only Current Selection</span>
+			</label>
+		</fieldset>
+		<fieldset>
+			<legend>Enter word(s) below to search within multiple fields.</legend>
+			<div class="formField checkboxField">
+				<label for="whole">
+					<span class="formControl"><input class="formControl" type="checkbox" name="WholeWord" value="1" id="whole" /></span>
+					<span class="formLabel">whole word(s) only</span>
+				</label>
+			</div>
+			<div class="formField checkboxField">
+				<label for="images">
+					<span class="formInput"><input class="formControl" type="checkbox" name="ImagesOnly" value="1" id="images" /></span>
+					<span class="formLabel">with images only</span>
+				</label>
+			</div>
+		</fieldset>
+		<div class="formField textField">
+			<label class="sro" for="search">Search terms</label>
+			<span class="formInput"><input class="formControl" size="30" type="text" name="theKW" id="search" placeholder="Search Terms" /></span>
+		</div>
+		<div class="formSubmit">
+			<input class="submitAction" type="submit" name="doSubmit" value="Find" />
+		</div>
+		
+	</form>
+%{if(Records)}%
+	<div>
+		<b>Your current selection of %{Records - Object}% records is:</b><br/>
+		%{Selection Name Object}%
+	</div>
+%{end if}%
+
+	%{Include footer.inc}%
+</body></html>

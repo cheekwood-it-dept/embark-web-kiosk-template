@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--Exhibitions/List.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}% - Exhibitions</title>
+    %{Include head.inc}%
+    
+</head>
+
+<body>
+    %{Include header.inc}%
+
+    <div class="container"> <!-- title and navigation -->
+        <h1>Browse the Exhibitions</h1>
+        <p class="lead">
+            Click any image below to begin browsing through the exhibition.
+        </p>
+
+        <div class="row">
+            <div class="col col-sm col-md-8 col-lg-6 col-xl-5 mr-auto">
+                <form id='popup' name='popup' method='post' action='%{Link;Exhibitions;info;0;query=Current Selection;records=1}%'>
+                    <select class="form-control" name='page' id='page' title='page' onchange='document.forms["popup"].submit()'>
+                        <!--#4DEVAL gsFunc_SortRecords (->[Exhibitions]start_date; "<")-->
+                        <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Exhibitions]; 1))-->  <!-- loads the first record -->
+
+                        <!--#4DLOOP [Exhibitions]-->
+                            <option value='<!--#4Dtext Selected Record number([Exhibitions])-->' <!--#4Dif (lFirstRec = Selected Record number([Exhibitions])) --> selected='selected' <!--#4Dendif-->>
+                                <!--#4Dtext [Exhibitions]Exhibition_Name--> (<!--#4Dtext String([Exhibitions]Start_Date;Internal date short)--> - <!--#4Dtext String([Exhibitions]End_Date;Internal date short)--> )
+                            </option>
+                        <!--#4DENDLOOP -->
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        %{Include pagenavigation.inc}%
+    </div>
+
+    <div style="position: relative;">
+        <div class="container">
+            <a name="main"></a>
+
+            <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Exhibitions]; gsFunc_GetCount("First Record")))-->  <!-- loads the first record -->
+            <!--#4DEVAL $i:=gsFunc_GetCount("First Record")-->                          <!-- set temp counter for the loop -->
+
+            <!-- The following will repeat for each record in the page. -->
+            <div class="d-flex flex-wrap align-self-start">
+                <!--#4DLOOP ($i <= gsFunc_GetCount("Last Record"))-->                       <!-- loop based on the temp counter -->
+                    <!--#4DEVAL $i:=$i+1-->                                                 <!-- increment the temp counter -->
+                    <div class="m-2">
+                        <div class="card hoverOutline" style="width:200px; margin-bottom:10px;">
+                            <a class="noColor" href="<!--#4Dtext gsFunc_Link("Exhibitions;info;0;first=Current Record;query=Current Selection;sort=15;records=1")-->&exhibitionName=<!--#4Dtext [Exhibitions]Exhibition_Name-->">
+                                <div class="card-img-top text-center" style="max-width:200px;max-height:200px;">
+                                    <!--#4Dif (gsFunc_HasImage(->[Exhibitions]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Exhibitions];"Preview Url")-->"
+                                             height="<!--#4Dvar gsFunc_GetImage (->[Exhibitions];"Proportional Height max 200")-->"
+                                             width="<!--#4Dvar gsFunc_GetImage (->[Exhibitions];"Proportional Width max 200")-->"
+                                             alt="Go to exhibit page for <!--#4Dtext [Exhibitions]Exhibition_Name-->" />
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultPreview.gif" alt="Go to exhibit page for <!--#4Dtext [Exhibitions]Exhibition_Name-->" />
+                                    <!--#4Dendif-->
+                                </div>
+
+                                <div class="card-body text-left">
+                                    <h5 class="card-title">
+    	                                <!--#4Dtext [Exhibitions]Exhibition_Name-->
+                                    </h5>
+
+                                    <p class="card-text small">
+                                        <!--#4Dtext String([Exhibitions]Start_Date;Internal date short)--> - <!--#4Dtext String([Exhibitions]End_Date;Internal date short)--><br/>
+                                        Status: <!--#4Dtext [Exhibitions]Exhibit_status--><br/>
+                                        <!--#4Dif ([Exhibitions]Exhibition_type # "")-->
+                                            Type: <!--#4Dtext [Exhibitions]Exhibition_type--><br/>
+                                        <!--#4Dendif-->
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!--#4DEVAL NEXT RECORD([Exhibitions])-->   <!-- load the next record -->
+                <!--#4DENDLOOP-->
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        %{Include selectiondescription.inc}%
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

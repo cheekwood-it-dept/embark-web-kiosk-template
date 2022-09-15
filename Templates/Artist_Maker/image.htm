@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}%</title>
+	%{Include head.inc}%
+</head>
+<!--FullView/Artist.htm-->
+<body>
+	%{Include header.inc}%
+
+	%{Include activerecords.inc}%
+	<h1><a href="%{Link;Objects_1;info;_ID;records=1}%" onmouseover="self.status = 'Display Object Description';return true" onmouseout="self.status = '';return true" title="Display Object Description">%{[Artist_Maker]Display_Name}%</a></h1>
+
+	%{Include pagenavigation.inc}%
+
+	<!-- display options start -->
+	<div class="display-options">
+			<div class="smalltxt">View:</div>
+			<div class="navtxt">
+					<img src="/graphics/icon2.gif" width="12" height="12" alt=""/>
+					<a href="%{Link;Artist_Maker;list;0;first=Current Record;query=Current Selection;records=100}%">text list</a>
+			</div>
+			<div class="navtxt">
+					<img src="/graphics/icon3.gif" width="12" height="12" alt=""/>
+					<a href="%{Link;Artist_Maker;info;_ID}%">biography</a>
+			</div>
+	</div>
+	<!-- display options end -->
+
+	<form id='popup' name='popup' method='get' action='%{Link;Artist_Maker;info;0;query=Current Selection;records=1}%'><input type='hidden' name='query' id='query' value='%{Current Selection}%'/><select name='page' id='page' onchange='document.forms["popup"].submit()'>%{Start loop(Current Selection)}%<option value='%{Loop Index}%'%{If(First Record=Loop Index)}% selected='selected'%{End if}%>%{[Artist_Maker]Sort_Name}%</option>%{End loop}%</select></form>
+
+	<center>
+	%{if(Has Image)}%
+			%{if(Image height=="0")}%
+					<object
+							classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="200" height="20"
+							codebase="http://www.apple.com/qtactivex/qtplugin.cab">
+							<param name="SRC" value="%{Image Path}%">
+							<param name="AUTOPLAY" value="true">
+							<param name="CONTROLLER" value="true">
+							<embed
+									src="%{Image Path}%" width="%{Image width}%" height="%{Image height}%"
+									autoplay="true" controller="false"
+									pluginspage="http://www.apple.com/quicktime/download/">
+							</embed>
+					</object>
+			%{else}%
+					%{if(Image duration=="0")}%
+							<img src="%{Image Path;DefaultPreview.gif}%" alt="%{[Artist_Maker]Display_Name}%"/>
+					%{else}%
+							<object
+								classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="%{Image width}%" height="%{Image height+20}%"
+								codebase="http://www.apple.com/qtactivex/qtplugin.cab">
+								<param name="SRC" value="%{Image Path}%">
+								<param name="AUTOPLAY" value="true">
+								<param name="CONTROLLER" value="true">
+								<embed
+									src="%{Image Path}%" width="%{Image width}%" height="%{Image height}%"
+									autoplay="true" controller="false"
+									pluginspage="http://www.apple.com/quicktime/download/">
+								</embed>
+							</object>
+					%{end if}%
+			%{end if}%
+	%{else}%
+			This artist does not have an image.
+	%{end if}%
+	</center>
+
+	<br/><br/>
+
+	<div class="selectionDesc">
+	%{Include selectiondescription.inc}%
+	</div>
+	%{Include footer.inc}%
+</body></html>

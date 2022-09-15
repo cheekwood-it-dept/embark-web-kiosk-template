@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--Users/login.htm-->
+<html lang="en">
+
+<head>
+    <title>%{include title.inc}% - Home</title>
+    %{Include head.inc}%
+    
+</head>
+
+<body onload="setMenu('login');" class="clearfix">
+    %{Include header.inc}%
+
+    <div id="head" class="container">
+        <a name="main"></a>
+
+        <h2>User Manager</h2>
+
+        <p class="lead">
+            You can use this section of the web site to manage the defined web users.
+        </p>
+
+        <!--#4Dif (gsFunc_GetInfo("ErrorMessageHTML")#"")-->
+            <div class="alert alert-danger" role="alert">
+                <!--#4Dhtml gsFunc_GetInfo("ErrorMessageHTML")-->
+            </div>
+        <!--#4Dendif-->
+        <!--#4Dif (gsFunc_GetInfo("SuccessMessageHTML")#"")-->
+            <div class="alert alert-success" role="alert">
+                <!--#4Dhtml gsFunc_GetInfo("SuccessMessageHTML")-->
+            </div>
+        <!--#4Dendif-->
+
+        <div class="mb-4">
+            <form action="/userManager?action=createNew" method="post">
+                <table width="100%">
+                    <tr>
+                        <td valign="middle">
+                            <input type="text" name="newUserName" class="form-control" placeholder="username of the new user">
+                        </td>
+                        <td class="navatxt" align="right" valign="bottom">
+                            <button class="btn btn-outline-primary btn-sm mr-3">Create New User</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <!--#4Dtext gsFunc_User_LoadManagedUsers -->
+        <table class="table table-bordered table-sm">
+            <thead class="thead-light">
+                <tr>
+                    <th>Username</th>
+                    <th>Email Address</th>
+                    <th>Type</th>
+                    <th>Portfolios</th>
+                    <th>Sharing</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--#4Dloop [Agents]-->
+                    <tr <!--#4Dif ([Agents]Inactive)-->class="table-active"<!--#4dendif-->>
+                        <td class="align-middle">
+                            <!--#4Dif ([Agents]_SuperUser)-->
+                                <strong><!--#4Dtext [Agents]Name--></strong>
+                            <!--#4delse-->
+                                <!--#4Dtext [Agents]Name-->
+                            <!--#4Dendif-->
+                            <!--#4Dif ([Agents]Inactive)-->
+                                <em class="small text-muted">Inactive<em>
+                            <!--#4Dendif-->
+                        </td>
+                        <td class="align-middle">
+                            <!--#4Dif ([Agents]Email_1#"")-->
+                                <a href="mailto:<!--#4Dtext [Agents]Email_1-->"><!--#4Dtext [Agents]Email_1--></a>
+                            <!--#4Dendif-->
+                        </td>
+                        <td class="align-middle">
+                            <!--#4Dif ([Agents]Inactive)-->Inactive<!--#4dendif-->
+                            <!--#4Dif ([Agents]_SuperUser)-->
+                                <strong>Administrator</strong>
+                            <!--#4delse-->
+                                Regular
+                            <!--#4Dendif-->
+                        </td>
+                        <td class="align-middle">
+                            <!--#4DEVAL $i:=gsFunc_GetCount("Num Portfolios for Current User")-->
+                            <!--#4Dif ($i=0)-->
+                                <span class="text-muted">no portfolios</span>
+                            <!--#4Delseif ($i=1)-->
+                                1 portfolio
+                            <!--#4delse-->
+                                <!--#4Dtext $i--> portfolios
+                            <!--#4Dendif-->
+                        </td>
+                        <td class="align-middle">
+                            <!--#4Dif ([Agents]_CanWebAccess)-->
+                                 Enabled
+                            <!--#4delse-->
+                                <span class="text-muted">Not Enabled</span>
+                            <!--#4Dendif-->
+                        </td>
+                        <td width=160 align=center class="align-middle">
+                            <a class="btn btn-outline-primary btn-sm m-1" href="/userManager?action=edit&id=<!--#4Dtext [Agents]_Agent_ID-->">Edit User</a>
+                            <a class="btn btn-outline-danger btn-sm m-1" href="/userManager?action=delete&id=<!--#4Dtext [Agents]_Agent_ID-->">
+                                <i class="fa fa-trash-o" style="font-size:1.5em;" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <!--#4Dendloop-->
+            </tbody>
+        </table>
+
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

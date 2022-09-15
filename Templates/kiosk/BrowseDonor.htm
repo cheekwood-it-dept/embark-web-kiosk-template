@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Kiosk/BrowseDonor.htm-->
+<html lang="en">
+
+<head>
+    <title>%{include title.inc}% - Browse by Donor</title>
+    %{Include head.inc}%
+    
+</head>
+
+<body>
+    %{Include header.inc}%
+
+    <div id="head" class="container">
+        <a name="main"></a>
+
+        <h1>Browse the Collections by Donor</h1>
+
+        <p class="lead">
+            Click any donor name below.
+        </p>
+
+        <p>
+            Click a letter below to jump to the donor's whose last name starts with that letter.
+        </p>
+
+        <div role="group" aria-label="Jump to Letter">
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#A">A</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#B">B</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#C">C</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#D">D</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#E">E</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#F">F</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#G">G</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#H">H</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#I">I</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#J">J</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#K">K</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#L">L</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#M">M</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#N">N</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#O">O</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#P">P</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#Q">Q</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#R">R</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#S">S</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#T">T</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#U">U</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#V">V</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#W">W</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#X">X</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#Y">Y</a></button>
+          <button type="button" class="btn btn-sm btn-outline-primary"><a href="#Z">Z</a></button>
+        </div>
+
+
+        <!--#4DEVAL $i:=0-->
+        <!--#4DLOOP ($i<26)) -->
+            <!--#4DEVAL $char:=char(character code("A")+$i)-->
+            <!--#4DEVAL gsFunc_SpecialFieldQuery(->[Agents]Last_Name; $char+"@"))-->
+            <!--#4DEVAL gsFunc_SpecialFieldSubQuery(->[Agents]Agent_Type; "Donor"))-->
+            <!--#4DEVAL gsFunc_SortRecords (->[Agents]Last_Name;">")-->
+            <br/>
+            <a name="<!--#4Dtext $char-->"></a>
+            <div class="alert alert-secondary" role="subheader" aria-label="Donors that start with <!--#4Dtext $char-->">
+                <strong class="display-4"><!--#4Dtext $char--></strong> <span class="text-muted">(<!--#4Dtext (records in selection([Agents]))--> donors)</span>
+                <div class="small float-right">
+                    <a href="#main">Go to top</a>
+                </div>
+            </div>
+
+            <ul class="ml-5">
+                <!--#4DLOOP [Agents] -->
+                <li>
+                    <a href="/agents/info?records=60&query=Agents%3D%22<!--#4Dtext [Agents]_Agent_ID-->%22">
+                        <!--#4Dtext [Agents]Sort_Name-->
+                    </a>
+                    <!--#4Dif ([Agents]W_City#"") & ([Agents]W_City#"()")-->
+                        <small class="text-muted"><!--#4Dtext [Agents]W_City--></small>
+                    <!--#4Dendif-->
+                </li>
+                <!--#4DENDLOOP-->
+            </ul>
+            <!--#4DEVAL $i:=$i+1-->
+        <!--#4DENDLOOP-->
+
+        <br />
+    </div>
+    %{Include footer.inc}%
+
+</body>
+
+</html>

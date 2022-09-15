@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--Acquisitions/List.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}% - Acquisition</title>
+    %{Include head.inc}%
+    %{Include scripts.inc}%
+</head>
+
+<body class="clearfix">
+    %{Include nav.inc}%
+
+    <div class="container"> <!-- title and navigation -->
+        <h1>Browse the Acquisitions</h1>
+        <p class="lead">
+            Click any image below to begin browsing through the acquisition.
+        </p>
+
+        <div class="row">
+            <div class="col col-sm col-md-5 col-lg-4 col-xl-4 mr-auto">
+                <form id='popup' name='popup' method='get' action='%{Link;Acquisition;info;0;query=Current Selection;records=1}%'  style="text-align:center;">
+                    <input type='hidden' name='query' id='query' value='%{Current Selection}%' />
+                    <select class="form-control" name='page' id='page' title='page' onchange='document.forms["popup"].submit()'>
+                        <!--#4DEVAL gsFunc_SortRecords (->[Acquisition]Acq_Name; ">")-->
+                        <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Acquisition]; 1))-->  <!-- loads the first record -->
+                        <!--#4dloop [Acquisition]-->
+                            <option value='<!--#4Dtext Selected Record number([Acquisition])-->' <!--#4Dif (lFirstRec = Selected Record number([Acquisition])) --> selected='selected' <!--#4Dendif-->>
+                                <!--#4Dtext [Acquisition]acq_Name-->
+                            </option>
+                        <!--#4dendloop -->
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        %{Include pagenavigation.inc}%
+
+    </div>
+
+    <div style="position: relative;">
+        <div class="container">
+            <a name="main"></a>
+
+            <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Acquisition]; gsFunc_GetCount("First Record")))-->  <!-- loads the first record -->
+            <!--#4DEVAL $i:=gsFunc_GetCount("First Record")-->                          <!-- set temp counter for the loop -->
+
+            <!-- The following will repeat for each record in the page. -->
+            <div class="d-flex flex-wrap align-self-start">
+                <!--#4DLOOP ($i <= gsFunc_GetCount("Last Record"))-->                       <!-- loop based on the temp counter -->
+                    <!--#4DEVAL $i:=$i+1-->                                                 <!-- increment the temp counter -->
+
+                    <div class="m-4">
+                        <div class="card hoverOutline" style="width:200px; margin-bottom:10px;">
+                            <a class="noColor" href="<!--#4Dtext gsFunc_Link("Acquisition;info;0;records=1;first=Current Record")-->&acquisitionName=<!--#4Dtext ([Acquisition]Acq_Name)-->" >
+                                <div class="card-img-top text-center" style="max-width:200px;max-height:200px;">
+                                    <!--#4Dif (gsFunc_HasImage(->[Acquisition]))-->
+                                        <img src="<!--#4Dvar gsFunc_GetImage (->[Acquisition];"Preview Url")-->"
+                                        height="<!--#4Dvar gsFunc_GetImage (->[Acquisition];"Proportional Height max 200")-->"
+                                        width="<!--#4Dvar gsFunc_GetImage (->[Acquisition];"Proportional Width max 200")-->"
+                                        alt="Cover image for <!--#4Dtext ([Acquisition]Acq_Name)-->" />
+                                    <!--#4Delse-->
+                                        <img src="/graphics/DefaultPreview.gif" alt="" />
+                                    <!--#4Dendif-->
+                                </div>
+                                <div class="card-body text-left">
+                                    <h5 class="card-title">
+                                        <!--#4Dtext ([Acquisition]Acq_Name)-->
+                                    </h5>
+
+                                    <p class="card-text small">
+                                        <!--#4Dif ([Acquisition]acq_date # !!) -->
+                                            <!--#4Dtext ([Acquisition]acq_date)--><br/>
+                                        <!--#4Dendif-->
+                                        Status: <!--#4Dtext ([Acquisition]acq_status)--><br />
+                                        <!--#4Dif ([Acquisition]Acq_Basis # "") -->
+                                            Type: <!--#4Dtext ([Acquisition]acq_basis)-->
+                                        <!--#4Dendif-->
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!--#4DEVAL NEXT RECORD([Acquisition])-->   <!-- load the next record -->
+                <!--#4DENDLOOP-->
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        %{Include selectiondescription.inc}%
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

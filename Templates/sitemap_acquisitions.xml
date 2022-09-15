@@ -1,0 +1,13 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+	<!--#4DEVAL gsFunc_AllFilteredRecords (->[Biblio_Citation];->[Acquisition]_Acq_ID)-->
+	<!--#4DLOOP [Acquisition]-->
+	<url>
+        <loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/acquisition/info/<!--#4Dtext [Acquisition]_Acq_ID--></loc>
+        <lastmod><!--#4Dtext gsFunc_DateInIsoformat([Acquisition]mod_date)--></lastmod>
+        <changefreq>daily</changefreq>
+        <image:image>
+			<image:loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/<!--#4Dtext gsFunc_GetImage (->[Acquisition];"Image Url")--></image:loc>
+		</image:image>
+	</url>
+	<!--#4DENDLOOP-->
+</urlset>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!--Users/login.htm-->
+<html lang="en">
+
+<head>
+		<title>%{include title.inc}% - Home</title>
+		%{Include head.inc}%
+
+</head>
+
+<body>
+		%{Include header.inc}%
+
+		<div id="head" class="container">
+				<a name="main"></a>
+
+				<h2>
+						Edit User
+						<span class="float-right"><a class="btn btn-outline-primary btn-sm m-1" href="/userManager">Show All Users</a></span>
+				</h2>
+
+				<p class="lead">
+						Make any needed changes to the user and save them when you are done.
+				</p>
+
+				<!--#4Dif (gsFunc_GetInfo("ErrorMessageHTML")#"")-->
+						<div class="alert alert-danger" role="alert">
+								<!--#4Dhtml gsFunc_GetInfo("ErrorMessageHTML")-->
+						</div>
+				<!--#4Dendif-->
+				<!--#4Dif (gsFunc_GetInfo("SuccessMessageHTML")#"")-->
+						<div class="alert alert-success" role="alert">
+								<!--#4Dhtml gsFunc_GetInfo("SuccessMessageHTML")-->
+						</div>
+				<!--#4Dendif-->
+
+				<div class="card border-secondary">
+					<div class="card-body">
+						<h5 class="card-title">Update User Details</h5>
+						<p class="card-text">Modify the user demographics and settings.</p>
+						<form action="/userManager" method="post">
+								<input type="hidden" name="id" value="<!--#4Dtext [Agents]_Agent_ID-->">
+								<table class="table table-borderless" style="max-width:700px;" width="100%">
+										<tr>
+												<td class="align-middle"><label for="name">Username</label></td>
+												<td><input class="form-control" type="text" name="userName" id="name" value="<!--#4Dtext [Agents]Name-->" placeholder="username"></td>
+										</tr>
+										<tr>
+												<td class="align-middle"><label for="email">Email Address</label></td>
+												<td><input class="form-control" type="text" name="userEmail" id="email" value="<!--#4Dtext [Agents]Email_1-->" placeholder="email address"></td>
+										</tr>
+										<tr>
+												<td class="align-middle">Configuration Options</td>
+												<td>
+														<div class="form-check">
+																<label class="form-check-label">
+																		<input class="form-check-input" type="checkbox" <!--#4Dif (not([Agents]Inactive))-->checked<!--#4Dendif--> name="userLoginEnabled" value="enabled"> Login Enabled
+																</label>
+														</div>
+												</td>
+										</tr>
+										<tr>
+												<th class="align-middle">&nbsp;</th>
+												<td>
+														<div class="form-check">
+																<label class="form-check-label">
+																		<input class="form-check-input" type="checkbox" <!--#4Dif ([Agents]_SuperUser)-->checked<!--#4Dendif--> name="userIsAdmin" value="enabled"> Is Admin User
+																</label>
+														</div>
+												</td>
+										</tr>
+										<tr>
+												<th class="align-middle">&nbsp;</th>
+												<td>
+														<div class="form-check">
+																<label class="form-check-label">
+																		<input class="form-check-input" type="checkbox" <!--#4Dif ([Agents]_CanWebAccess)-->checked<!--#4Dendif--> name="userCanSharePortfolios" value="enabled"> Portfolios Sharing Enabled
+																</label>
+														</div>
+												</td>
+										</tr>
+										<tr>
+												<td colspan=2>
+														<button class="btn btn-primary " name="action" value="save">Save Changes</button>
+												</td>
+										</tr>
+								</table>
+						</form>
+					</div>
+				</div>
+
+				<div class="card-deck mt-4">
+						<div class="card border-secondary">
+							<div class="card-body">
+								<h5 class="card-title">Set Custom Password</h5>
+								<p class="card-text">Provide a new password that will be assigned to the user.</p>
+								<form action="/userManager" method="post">
+										<input type="hidden" name="id" value="<!--#4Dtext [Agents]_Agent_ID-->">
+										<table class="table table-borderless" width="100%">
+												<tr>
+														<td><input class="form-control" type="password" name="password_1" id="customPassword" value="" placeholder="New Password"></td>
+														<td><input class="form-control" type="password" name="password_2" value="" placeholder="New Password Repeated"></td>
+												</tr>
+												<tr>
+														<td colspan=2>
+																<button class="btn btn-outline-primary" name="action" value="saveCustomPassword">Save Custom Password</button>
+														</td>
+												</tr>
+										</table>
+								</form>
+							</div>
+						</div>
+
+						<div class="card border-secondary">
+							<div class="card-body">
+								<h5 class="card-title">Set Random Password</h5>
+								<p class="card-text">Using this option will set the users's password to a new random value.</p>
+								<form action="/userManager" method="post">
+										<input type="hidden" name="id" value="<!--#4Dtext [Agents]_Agent_ID-->">
+										<button class="btn btn-outline-primary" name="action" value="saveRandomPassword">Assign Random Password</button>
+								</form>
+							</div>
+						</div>
+				</div>
+
+				<!--#4Dif (gsFunc_GetCount("Num Portfolios for Current User")>0)-->
+						<div class="card border-secondary mt-4">
+							<div class="card-body">
+								<h5 class="card-title list-row">User's Portfolios</h5>
+
+								<!--#4Deval QUERY([Portfolios]; [Portfolios]_Port_Owner=[Agents]_Agent_ID)-->
+								<ul class="ml-4" style="display:none;">
+										<!--#4Dloop [Portfolios]-->
+												<li class="laist-group-item">
+														<!--#4Dtext [Portfolios]Port_Name -->
+														<em class="text-muted">
+																<!--#4Dif ([Portfolios]Shared)-->
+																		[contains <!--#4Dtext [Portfolios]PortSize--> records, is shared]
+																<!--#4Delse-->
+																		[contains <!--#4Dtext [Portfolios]PortSize--> records]
+																<!--#4Dendif-->
+														</em>
+												</li>
+										<!--#4Dendloop-->
+								</ul>
+
+								<!-- The following will repeat for each record in the page. -->
+								<!--#4Deval QUERY([Portfolios]; [Portfolios]_Port_Owner=[Agents]_Agent_ID)-->
+								<!--#4Dloop [Portfolios]-->
+										<div class="list-row">
+												<table width="100%">
+														<tr>
+																<td valign="middle" style="max-width:700px;">
+																		<!--#4Dif [Portfolios]PortSize>0-->
+																				<a href="<!--4Dtext gsFunc_Link("Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID-->" target="_blank">
+																						<!--#4Dtext [Portfolios]Port_Name -->
+																				</a>
+																		<!--#4Delse-->
+																				<!--#4Dtext [Portfolios]Port_Name -->
+																		<!--#4Dendif-->
+																		<em class="small text-muted">
+																				<!--#4Dtext [Portfolios]PortSize--> record(s).
+																				<!--#4Dif ([Portfolios]Shared)-->
+																						<em>Shared</em>
+																				<!--#4Dendif-->
+																		</em>
+																		<!--#4Dif ([Portfolios]Notes#"")-->
+																				<div class="small text-muted ml-2">
+																						<!--#4Dhtml [Portfolios]Notes-->
+																				</div>
+																		<!--#4Dendif-->
+																</td>
+																<td align="right" valign="top">
+																		<!--#4Dif [Portfolios]PortSize>0-->
+																				<a class="btn btn-outline-primary btn-sm m-1" href="/removePortfolioObjects<!--#4Dtext [Portfolios]_Port_ID-->">Remove Objects</a>
+																				<a class="btn btn-outline-primary btn-sm m-1" href="/sortPortfolioObjects<!--#4Dtext [Portfolios]_Port_ID-->">Sort Objects</a>
+																		<!--#4Delse-->
+																				<button disabled class="btn btn-outline-secondary btn-sm m-1" href="#">Remove Objects</button>
+																				<button disabled class="btn btn-outline-secondary btn-sm m-1" href="#">Sort Objects</button>
+																		<!--#4Dendif-->
+																		<a class="btn btn-outline-primary btn-sm m-1" href="/updatePortfolioProperties<!--#4Dtext [Portfolios]_Port_ID-->">Edit Properties</a>
+																</td>
+														</tr>
+												</table>
+										</div>
+								<!--#4Dendloop-->
+
+							</div>
+						</div>
+				<!--#4Dendif-->
+
+
+		</div>
+
+		%{Include footer.inc}%
+</body>
+
+</html>

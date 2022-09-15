@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--Agents/info.htm-->
+<html lang="en">
+
+<head>
+    <title>%{Include title.inc}% - %{[Agents]Name}%</title>
+    %{Include head.inc}%
+    %{Include scripts.inc}%
+</head>
+
+<body class="clearfix">
+    %{Include nav.inc}%
+
+    <div class="container">
+        <h2>
+            <!--#4Dtext [Agents]Name-->
+        </h2>
+
+        <div class="row">
+            <div class="col col-sm col-md-5 col-lg-4 col-xl-4 mr-auto">
+                <form id='popup' name='popup' method='post' action='%{Link;Agents;info;0;query=Current Selection;records=1}%'>
+                    <select class="form-control" name='page' onchange='document.forms["popup"].submit()'>
+                        <!--#4DEVAL (gsFunc_SetSelectedRecord(->[Agents]; 1))-->  <!-- loads the first record -->
+                        <!--#4dloop [Agents]-->
+                            <option value='<!--#4Dtext Selected Record number([Agents])-->' <!--#4Dif (lFirstRec = Selected Record number([Agents])) --> selected='selected' <!--#4Dendif-->>
+                                <!--#4Dtext [Agents]Sort_Name-->
+                            </option>
+                            <!--#4dendloop -->
+                    </select>
+                </form>
+            </div>
+
+            <!--#4DEVAL (gsFunc_EnsureCurRecordisLoaded (->[Agents]))-->  <!-- reloads the record -->
+
+        </div>
+
+        %{Include pagenavigation.inc}%
+    </div>
+
+    <hr/>
+
+    <div class="container">
+        <a name="main"></a>
+
+        <p class="text-right">
+            <a class="btn btn-default" onclick="window.print();return false;" href="#">
+                <i class="fa fa-print"></i> Print this page
+            </a>
+        </p>
+
+        <div class="row">
+               <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 cols-xs-12 text-center">
+                <!--#4Dif (gsFunc_HasImage(->[Agents]))-->
+						<!--#4Dif (gsFunc_GetImage (->[Agents];"MIME Type")="video/@")-->
+							<video width="<!--#4Dvar gsFunc_GetImage (->[Agents];"Proportional Width max 300")-->"
+								   height="<!--#4Dvar gsFunc_GetImage (->[Agents];"Proportional Height max 300")-->"
+								   poster="<!--#4Dvar gsFunc_GetImage (->[Agents];"Preview Url")-->"
+                                   src="<!--#4Dvar gsFunc_GetImage (->[Agents];"Image Url")-->"
+								   controls preload="none"
+                                 >
+                                <source type="<!--#4Dvar gsFunc_GetImage (->[Agents];"MIME Type")-->" src="<!--#4Dvar gsFunc_GetImage (->[Agents];"Image Url")-->" />
+                                <p class="vjs-no-js">
+                                  To view this video please enable JavaScript, and consider upgrading to a
+                                  web browser that supports HTML5 video.
+                                </p>
+							</video>
+						<!--#4Delseif (gsFunc_GetImage (->[Agents];"MIME Type")="audio/@")-->
+							<audio controls="control" preload="none"
+								   src="<!--#4Dvar gsFunc_GetImage (->[Agents];"Image Url")-->"
+								   type="<!--#4Dvar gsFunc_GetImage (->[Agents];"MIME Type")-->">
+							</audio>
+						<!--#4Delse-->
+							<a class="highslide" href="<!--#4Dvar gsFunc_GetImage (->[Agents];"Image Url")-->" onclick="return hs.expand(this, hs.__.paramGallery);" target="_blank">
+								<img src="<!--#4Dvar gsFunc_GetImage (->[Agents];"Preview Url")-->"
+									 height="<!--#4Dvar gsFunc_GetImage (->[Agents];"Proportional Height max 300")-->"
+									 width="<!--#4Dvar gsFunc_GetImage (->[Agents];"Proportional Width max 300")-->"
+									 alt="Image of <!--#4Dtext [Agents]Agent_Name-->"
+									 style="max-width:300px;max-height:300px;" />
+							 </a>
+	                    <!--#4Dendif-->
+                <!--#4Delse-->
+                    <p>
+                        <em>This donor does not have an image.</em>
+                    </p>
+                <!--#4Dendif-->
+
+                    <!--#4DEVAL gsFunc_LoadPrimaryImage (->[Agents])-->
+                    <!--#4Dif ([Surrogates]Photo_Credit # "")-->
+                        <br/><br/>
+                        <i>Photo Credit: <!--#4Dtext ([Surrogates]Photo_Credit)--></i>
+                    <!--#4Dendif-->
+
+
+                    <!-- Add This Button BEGIN -->
+                    <!-- This code must be updated for your own AddThis account at http://www.addthis.com. Please note the example for customizing the URL to make a bookmarkable URL without session id information. -->
+                    <p>
+                        <a href="http://www.addthis.com/bookmark.php" onclick="addthis_url='/agents/info/<!--#4DTEXT [Agents]_Agent_ID-->';  addthis_title = document.title; return addthis_click(this);" target="_blank">
+                            <img src="http://s9.addthis.com/button1-bm.gif" width="125" height="16" border="0" alt="Bookmark and Share" />
+                        </a>
+                        <script type="text/javascript">
+                            var addthis_pub = '<your account name>';
+                        </script>
+                        <script type="text/javascript" src="http://s9.addthis.com/js/widget.php?v=10"></script>
+                    </p>
+                    <!-- AddThis Button END -->
+
+
+                    <p>
+                        Bookmark: <a href="http://mysite.org/agents/info/<!--#4DTEXT [Agents]_Agent_ID-->" target="_blank">http://mysite.org/agents/info/<!--#4DTEXT [Agents]_Agent_ID--></a>
+                    </p>
+            </div>
+
+            <!-- data layout table start -->
+            <div class="col-lg-8 col-md-6 col-sm-12">
+                <!--#4Dif ([Agents]Name # "")-->
+                    <strong>
+                       <!--#4Dtext [Agents]Name-->
+                    </strong><br />
+                <!--#4Dendif-->
+
+                <!--#4Dif ([Agents]Notes # "")-->
+                        <!--#4Dhtml gsFunc_DisplayEmbeddedHTML (->[Agents]Notes)-->
+                <!--#4Dendif--><br />
+            </div>
+        </div>
+        <!-- data layout table end -->
+
+        <!--#4DEVAL gsFunc_LoadChildRecords (->[Agents]; ->[Objects_1])-->
+        <!--#4DEVAL gsFunc_SortRecords (->[Objects_1]Disp_Title; ">")-->
+        <!--#4Dif (Records in Selection([Objects_1]) > 0)-->
+            <br />
+            <br />
+            <div>
+                <div class="lead p-1 border-bottom bg-light mt-4">
+                   Objects donated by <!--#4Dtext [Agents]Name-->
+                    <div class="float-right">
+                        <em class="small">
+                            <a href="%{Link;Objects_1;portfolio;0;records=24;query=Agents=_ID}%&sort=9" aria-label="Browse objects linked to this Donor in a new window">
+                                Browse as a List &nbsp;
+                            </a>
+                        </em>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap align-self-start">
+                    <!--#4DLOOP [Objects_1]-->
+                        <div class="m-2">
+                            <div class="card hoverOutline" style="width:128px; margin-bottom:10px;">
+                                <div class="card-img-top text-center" style="max-width:128px;max-height:128px;">
+                                    <a href="<!--4Dtext gsFunc_Link("Objects_1;info;[Objects_1]_objects_1_id")-->&objectName=<!--#4Dtext [Objects_1]Disp_Title-->">
+                                        <!--#4Dif (gsFunc_HasImage(->[Objects_1]))-->
+                                            <img src="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Thumbnail Url")-->"
+                                                 class="rounded"
+                                                 height="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Height max 128")-->"
+                                                 width="<!--#4Dvar gsFunc_GetImage (->[Objects_1];"Proportional Width max 128")-->"
+                                                 alt="Image of <!--#4Dtext [Objects_1]Disp_Title-->" />
+                                         <!--#4Delse-->
+                                            <img src="/graphics/DefaultThumbnail.gif"
+                                                 alt="Thumbnail for missing image of <!--#4Dtext [Objects_1]Disp_Title-->" />
+                                         <!--#4Dendif-->
+                                    </a>
+                                </div>
+                                <div class="border-top text-center px-2">
+                                    <p class="card-text">
+                                        <a class="noColor" href="<!--4Dtext gsFunc_Link("Objects_1;info;[Objects_1]_objects_1_id")-->&objectName=<!--#4Dtext [Objects_1]Disp_Title-->">
+                                            <!--#4Dtext [Objects_1]Disp_Title-->
+                                        </a>
+                                        <!--#4Dtext [Objects_1]Disp_Access_No-->
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    <!--#4DENDLOOP-->
+                </div>
+            </div>
+        <!--#4Dendif-->
+
+        <!--#4DEVAL gsFunc_LoadChildRecords (->[Agents]; ->[Surrogates]) -->
+        <!--#4Dif (Records in selection([Surrogates]) > 0)-->
+                <!--#4DEVAL gsFunc_SortRecords (->[Surrogates]View_1; ">")-->
+                <p>
+                    <div class="p-1 border-bottom bg-light mt-4">
+                        <span class="lead">Additional Images</span>
+                        <em class="small text-muted">
+                            Click an image to view a larger version
+                        </em>
+                </div>
+                <div class="d-flex flex-wrap align-self-start">
+                    <!--#4DLOOP [Surrogates]-->
+                            <div class="m-2">
+                                <!--#4Dif (gsFunc_GetImage (->[Surrogates];"MIME Type")="video/@")-->
+        							<video width="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Proportional Width max 300")-->"
+        								   height="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Proportional Height max 300")-->"
+        								   poster="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Preview Url")-->"
+                                           src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Image Url")-->"
+        								   controls preload="none"
+                                         >
+                                        <source type="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"MIME Type")-->" src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Image Url")-->" />
+                                        <p class="vjs-no-js">
+                                          To view this video please enable JavaScript, and consider upgrading to a
+                                          web browser that supports HTML5 video.
+                                        </p>
+        							</video>
+        						<!--#4Delseif (gsFunc_GetImage (->[Surrogates];"MIME Type")="audio/@")-->
+        							<audio controls="control" preload="none"
+        								   src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Image Url")-->"
+        								   type="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"MIME Type")-->">
+        							</audio>
+        						<!--#4Delse-->
+                                     <a class="item highslide" href="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Image Url")-->" onclick="return hs.expand(this, hs.__.paramGallery);">
+                                        <img style="max-width:128px; max-height:128px;"
+                                             src="<!--#4Dvar gsFunc_GetImage (->[Surrogates];"Thumbnail Url")-->"
+                                             alt="Additional Image <!--#4Dtext ([Surrogates]View_1)-->"
+                                        />
+                                    </a>
+                                <!--#4Dendif-->
+                                <!--#4Dif ([Surrogates]View_1 # "")-->
+                                    <br/>
+                                    <span class="small text-muted"><!--#4Dtext [Surrogates]View_1--></span>
+                                <!--#4Dendif-->
+                        </div>
+                    <!--#4DENDLOOP-->
+                </div>
+                </p>
+        <!--#4Dendif-->
+
+    </div>
+
+    <div class="container">
+        %{Include selectiondescription.inc}%
+    </div>
+
+    %{Include footer.inc}%
+</body>
+
+</html>

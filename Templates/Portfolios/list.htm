@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en">
+<head>
+	<title>%{Include title.inc}% Browse the Collection</title>
+	%{Include head.inc}%
+</head>
+<!--PortfolioIndex.htm-->
+<body>
+	%{Include header.inc}%
+
+	<h1>Browse the Collection</h1>
+%{if(Message != "")}%
+	<p class="err">%{Message}%</p>
+%{end if}%
+	<ul class="portfolio portfolio-index">
+%{Start Loop}%
+		<li class="portfolioItem">
+			<div class="portfolioItemMedia"><a href="%{Link;Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID;sort=7}%" role="presentation">
+				<img class="portfolioItemImage" src="%{If(Has Image)}%%{thumbnail}%%{Else}%/graphics/DefaultPostage.gif%{End If}%" alt="" />
+			</a></div>
+			<div class="portfolioItemMain">
+				<div class="portfolioItemName"><a href="%{Link;Objects_1;portfolio;0;records=12;query=Portfolios=[Portfolios]_Port_ID;sort=7}%">%{Portfolio Name}%</a></div>
+				%{if([Portfolios]Notes!="")}%
+					<p class="portfolioNotes">%{[Portfolios]Notes}%</p>
+				%{end if}%
+				<div>%{Portfolio Size}% record(s)</div>
+			</div>
+		</li>
+%{End Loop}%
+	</ul>
+	<ul class="siteMainSectionsLinks">
+		<li><a href="/kiosk/search.htm">Search the Collection</a></li>
+	</ul>
+
+	%{Include footer.inc}%
+</body></html>

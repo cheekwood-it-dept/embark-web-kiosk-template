@@ -1,0 +1,13 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+	<!--#4DEVAL gsFunc_AllFilteredRecords (->[Biblio_Citation];->[Biblio_Citation]_Bibliography_ID)-->
+	<!--#4DLOOP [Biblio_Citation]-->
+	<url>
+        <loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/biblio-citation/info/<!--#4Dtext [Biblio_Citation]_Bibliography_ID--></loc>
+        <lastmod><!--#4Dtext gsFunc_DateInIsoformat([Biblio_Citation]mod_date)--></lastmod>
+        <changefreq>daily</changefreq>
+        <image:image>
+			<image:loc><!--#4DHTML gsFunc_GetInfo("Public URL")-->/<!--#4Dtext gsFunc_GetImage (->[Biblio_Citation];"Image Url")--></image:loc>
+		</image:image>
+	</url>
+	<!--#4DENDLOOP-->
+</urlset>
